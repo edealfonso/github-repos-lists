@@ -1,36 +1,68 @@
+# Next.js
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+# Specs
 
-To learn more about Next.js, take a look at the following resources:
+## **GitHub Repositories With Search Functionality**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Nothing out of this world here — GitHub repositories are basically just a glorified list.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The task is to allow the user to type in the name of a github user and display his/her repositories in a list. The user should then be allowed to filter through the repositories by name and/or programming language.
 
-## Deploy on Vercel
+The interface doesn’t need to be unique; feel free to take inspiration from your favourite apps or even the Github interface itself. We would like to see a responsive interface that follows good user experience principles. (As an example of what we mean by this, check out [Laws of UX](https://lawsofux.com/).)
+Use the [official GitHub API](https://docs.github.com/en/rest) to fetch repositories per user.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Requirements
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- The application must be written using React
+- Use typescript
+- You are required to use git for versioning
+- Feel free to use any additional plugin/module to help you get the task done more
+effectively
+- Google Chrome is the testing browser
+
+### Extra credits
+
+Things that are not mandatory, but we would like to see:
+
+- +1 if you add storybook and divide the components
+- +1 if you write tests
+- +1 if deploy it somewhere (like [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/))
+- +1 If your [code is documented](https://google.github.io/styleguide/jsguide.html#jsdoc)
+- +1 If you’re up for the challenge, use the [v4 API](https://docs.github.com/en/graphql), which is built using GraphQL.
+- +1 If you write a README that includes
+    - A short description about the project
+    - Instructions on how to run it
+    - Instructions on how to run the test suite
+    - Future improvements
+
+
+## Notes
+
+Getting the repos lists from user
+https://api.github.com/users/edealfonso/repos
+
+Getting the Langauges of a repo
+https://api.github.com/repos/edealfonso/loopxy.js/languages
+
+- Deploy
+- Document. [Ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
+- README
+- GraphQL?
+
+## Description
+A short description about the project
+
+## Instructions
+Instructions on how to run it
+
+## Instructions on testing
+Instructions on how to run the test suite
+
+## Future improvements
+Future improvements
