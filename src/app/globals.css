@@ -7,18 +7,22 @@
   --background-start-color: rgb(245, 255, 254);
   --background-end-color: rgb(255, 255, 255);
   --background-alt-color: beige;
-  --button-color: rgb(92, 182, 230);
+  --button-color: rgb(2, 108, 165);
+  --background-button-color: rgb(188, 232, 255);
   --links-color: rgb(0, 130, 200);
+  --links-hover-color: var(--text-color);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --text-color: rgb(255, 255, 255);
-    --background-start-color: 0, 0, 0;
-    --background-end-color: 0, 0, 0;
+    --background-start-color: rgb(0, 0, 0);
+    --background-end-color: rgb(0, 0, 0);
     --background-alt-color: rgb(68, 68, 68);
-    --button-color: rgb(92, 182, 230);
-    --links-color: rgb(0, 130, 200);
+    --button-color: rgb(222, 243, 255);
+    --background-button-color: rgb(46, 149, 205);
+    --links-color: rgb(84, 168, 212);
+    --links-hover-color: var(--text-color);
   }
 }
 
@@ -33,7 +37,47 @@ body {
 }
 
 a {
-  color: rgb(var(--links-color));
+  cursor: pointer;
+  color: var(--links-color);
   text-decoration: underline;
   text-decoration-skip-ink: none;
+}
+
+a:hover,
+a:active,
+a:focus {
+  color: var(--links-hover-color);
+}
+
+input {
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.125rem;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+  background-color: var(--background-button-color);
+  color: var(--button-color);
+}
+
+input[type="reset"] {
+  cursor: pointer;
+  background-color: var(--button-color);
+  color: var(--background-end-color);
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:active,
+input[type="submit"]:focus {
+  outline: 2px solid var(--button-color);
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+small {
+  font-size: 0.7rem;
+  line-height: 1.2;
 }

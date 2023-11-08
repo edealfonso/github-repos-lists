@@ -1,13 +1,16 @@
 import RepositoryList from "@/components/RepositoryList";
 import SearchBar from "@/components/SearchBar";
-import UsernameInputForm from "@/components/UserInputForm";
+import UserForm from "@/components/UserForm";
 import { AppProvider } from "@/context/app-context";
 
 export default function Home() {
   return (
     <AppProvider>
-      <main className="min-h-screen p-16">
-        <UsernameInputForm />
+      <header>
+        <h1>GitHub Repositories With Search Functionality</h1>
+      </header>
+      <main>
+        <UserForm />
         <SearchBar />
         <RepositoryList />
       </main>

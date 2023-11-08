@@ -45,10 +45,9 @@ Things that are not mandatory, but we would like to see:
 
 ## Notes
 
-- improve no results behaviour on list
-- improve listing look (info)
-- improve look of all
-- improve languages search
+- active reset cant be made
+- improve no results behaviour on list (API limit in list)
+- improve look of all / responsive
 - add some animation?
   
 - Deploy

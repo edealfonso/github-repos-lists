@@ -1,13 +1,20 @@
 "use client";
-import { FormEvent, useContext } from "react";
-import { getRepositoriesFromUsername, searchRepositories } from "@/api/github";
-import { RepositoryData } from "@/lib/types";
+import { FormEvent, useContext, useState } from "react";
+import { searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
 import Image from "next/image";
+import { collectLanguages } from "@/lib/utils";
 
-export default function UsernameInputForm() {
-  const { showForm, toggleForm, username, setUsername, setList } =
-    useContext(AppContext);
+export default function UserForm() {
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const {
+    showForm,
+    toggleForm,
+    username,
+    setUsername,
+    setList,
+    setLanguageList,
+  } = useContext(AppContext);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -17,9 +24,22 @@ export default function UsernameInputForm() {
 
     if (username) {
       const results: any = await searchRepositories(username);
-      setUsername(username);
-      setList(results.items);
-      toggleForm();
+
+      if (results.items) {
+        setErrorMessage("");
+
+        setUsername(username);
+
+        // update repository list
+        setList(results.items);
+
+        // collect languages of all repositories from user
+        setLanguageList(collectLanguages(results.items));
+
+        toggleForm();
+      } else {
+        setErrorMessage(results.message);
+      }
     }
   }
 
@@ -28,7 +48,7 @@ export default function UsernameInputForm() {
       {showForm && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-brightness-50 bg-white/50">
           <form
-            className="relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
+            className="max-w-md	relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
             onSubmit={handleSubmit}
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
@@ -36,12 +56,10 @@ export default function UsernameInputForm() {
               Write a GitHub username
               <input type="text" name="username" />
             </label>
-            <input
-              className="py-1 px-2 mt-2 rounded-sm"
-              type="submit"
-              value="Submit"
-              style={{ backgroundColor: "var(--button-color)" }}
-            />
+            <input className="mt-2" type="submit" value="Submit" />
+            {errorMessage && (
+              <small className="opacity-50">{errorMessage}</small>
+            )}
             {username && (
               <a
                 className="absolute top-0 right-0 translate-x-5 -translate-y-5"

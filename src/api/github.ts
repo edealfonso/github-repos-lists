@@ -1,42 +1,25 @@
-import { RepositoryData } from "../lib/types";
+import { Language } from "@/lib/types";
+import { Octokit } from "@octokit/core";
 
-export async function getRepositoriesFromUsername(
-  username: String | any
-): Promise<RepositoryData[] | any> {
-  if (username) {
-    const response = await fetch(
-      `https://api.github.com/users/${username}/repos`
-    );
-    const data = await response.json();
-    console.log(data);
-    return data;
-  } else {
-    return [];
-  }
-}
+// Octokit.js
+// https://github.com/octokit/core.js#readme
+const octokit = new Octokit({
+  auth: "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",
+});
 
-export async function getRepositoryLanguages(
-  username: String | any
-): Promise<RepositoryData[] | any> {
-  if (username) {
-    const response = await fetch(
-      "https://api.github.com/users/edealfonso/repos"
-    );
-    return await response.json();
-  } else {
-    return [];
-  }
-}
-
-export async function searchRepositories(
+export function searchRepositories(
   username: string,
   keywords: string = "",
-  language_array: string[] = []
+  language_array: Language[] = []
 ): Promise<any> {
-  const languages = language_array.reduce(
-    (accumulator, currentValue) => accumulator + " language:" + currentValue,
-    ""
-  );
+  const languages = language_array.reduce((acc, current) => {
+    if (current.active) {
+      return acc + " language:" + current.name;
+    } else {
+      return acc;
+    }
+  }, "");
+
   const queryString =
     "q=" +
     encodeURIComponent(
@@ -45,15 +28,12 @@ export async function searchRepositories(
 
   console.log(`https://api.github.com/search/repositories?${queryString}`);
 
-  const response = await fetch(
-    `https://api.github.com/search/repositories?${queryString}`,
-    {
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    }
-  );
-  const data = await response.json();
-  console.log(data);
-  return data;
+  return fetch(`https://api.github.com/search/repositories?${queryString}`, {
+    headers: {
+      "X-GitHub-Api-Version": "2022-11-28",
+      Authorization: "Bearer " + "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",
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
 }
