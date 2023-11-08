@@ -5,8 +5,6 @@ import { createContext, ReactNode, useState } from "react";
 type appContextType = {
   username: string;
   setUsername: (username: string) => void;
-  keywords: string;
-  setKeywords: (username: string) => void;
   showForm: boolean;
   toggleForm: () => void;
   list: RepositoryData[] | any;
@@ -16,8 +14,6 @@ type appContextType = {
 const appContextDefaultValues: appContextType = {
   username: "",
   setUsername: () => {},
-  keywords: "",
-  setKeywords: () => {},
   showForm: true,
   toggleForm: () => {},
   list: [],
@@ -36,9 +32,6 @@ export function AppProvider({ children }: Props) {
   const [username, setUsername] = useState<string>(
     appContextDefaultValues.username
   );
-  const [keywords, setKeywords] = useState<string>(
-    appContextDefaultValues.keywords
-  );
   const [showForm, setShowForm] = useState<boolean>(
     appContextDefaultValues.showForm
   );
@@ -51,8 +44,6 @@ export function AppProvider({ children }: Props) {
   const value = {
     username,
     setUsername,
-    keywords,
-    setKeywords,
     showForm,
     toggleForm,
     list,

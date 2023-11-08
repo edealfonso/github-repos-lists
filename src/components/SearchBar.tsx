@@ -5,22 +5,21 @@ import { RepositoryData } from "@/lib/types";
 import { FormEvent, useContext } from "react";
 
 export default function SearchBar() {
-  const { toggleForm, username, setList, setKeywords } = useContext(AppContext);
+  const { toggleForm, username, setList } = useContext(AppContext);
 
   async function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const keywords: string | any = formData.get("keywords");
+    const language: string | any = formData.get("language");
 
-    if (keywords) {
-      setKeywords(keywords);
-      const results: any = await searchRepositories(username, keywords);
-      // const results: any = await searchRepositories(username, "css", [
-      //   "JavaScript",
-      // ]);
-      setList(results.items);
-    }
+    const results: any = await searchRepositories(
+      username,
+      keywords,
+      language.split(",").map((item: string) => item.trim())
+    );
+    setList(results.items);
   }
 
   return (
@@ -36,8 +35,12 @@ export default function SearchBar() {
                 Keywords:
                 <input type="text" name="keywords" />
               </label>
+              <label className="flex flex-col gap-1 mt-4">
+                Languages (separate by commas):
+                <input type="text" name="language" />
+              </label>
               <input
-                className="py-1 px-2 mt-2 rounded-sm"
+                className="py-1 px-2 mt-4 rounded-sm"
                 type="submit"
                 value="Search"
                 style={{ backgroundColor: "var(--button-color)" }}

@@ -44,17 +44,9 @@ Things that are not mandatory, but we would like to see:
 
 
 ## Notes
-
-Getting the repos lists from user
-https://api.github.com/users/edealfonso/repos
-
-Getting the Langauges of a repo
-https://api.github.com/repos/edealfonso/loopxy.js/languages
-
 - Deploy
 - Document. [Ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
 - README
-- GraphQL?
 
 ## Description
 A short description about the project
