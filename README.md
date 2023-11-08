@@ -1,4 +1,6 @@
-# Next.js
+# **GitHub Repositories With Search Functionality**
+
+## Next.js
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -6,10 +8,9 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-# Specs
+## Specs
 
-## **GitHub Repositories With Search Functionality**
-
+**GitHub Repositories With Search Functionality**
 Nothing out of this world here — GitHub repositories are basically just a glorified list.
 
 The task is to allow the user to type in the name of a github user and display his/her repositories in a list. The user should then be allowed to filter through the repositories by name and/or programming language.
@@ -57,6 +58,7 @@ https://api.github.com/repos/edealfonso/loopxy.js/languages
 
 ## Description
 A short description about the project
+GitHub Repositories With Search Functionality
 
 ## Instructions
 Instructions on how to run it
