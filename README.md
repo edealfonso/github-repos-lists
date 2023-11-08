@@ -44,6 +44,13 @@ Things that are not mandatory, but we would like to see:
 
 
 ## Notes
+
+- improve no results behaviour on list
+- improve listing look (info)
+- improve look of all
+- improve languages search
+- add some animation?
+  
 - Deploy
 - Document. [Ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
 - README

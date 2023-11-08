@@ -26,21 +26,29 @@ export default function UsernameInputForm() {
   return (
     <>
       {showForm && (
-        <div className="fixed inset-16 flex items-center justify-center">
+        <div className="fixed inset-0 flex items-center justify-center backdrop-brightness-50 bg-white/50">
           <form
-            className="relative flex flex-col gap-5 items-center justify-center text-center p-8 rounded-sm border-solid border-2 border-black"
+            className="relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
             onSubmit={handleSubmit}
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
-            <label className="flex flex-col gap-12">
+            <label className="flex flex-col gap-5">
               Write a GitHub username
               <input type="text" name="username" />
             </label>
-            <input type="submit" value="Submit" />
+            <input
+              className="py-1 px-2 mt-2 rounded-sm"
+              type="submit"
+              value="Submit"
+              style={{ backgroundColor: "var(--button-color)" }}
+            />
             {username && (
-              <a onClick={toggleForm}>
+              <a
+                className="absolute top-0 right-0 translate-x-5 -translate-y-5"
+                onClick={toggleForm}
+              >
                 <Image
-                  className="absolute top-0 right-0 translate-x-5 -translate-y-5 p-1 bg-white rounded-full border-solid border-2 border-black"
+                  className="p-1 bg-white rounded-full border-solid border-2 border-black"
                   src="/images/icons/close.svg"
                   width={40}
                   height={40}
