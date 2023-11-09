@@ -18,7 +18,7 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
       setActive(languageList[index].active);
     } else {
       // this ensures a reset for new elements
-      // when language list is re-populated for a new user name
+      // when language list is re-populated for a new user name **(*NOTE3*)**
       setActive(false);
     }
   }, [languageList, index]);

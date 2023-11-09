@@ -7,8 +7,8 @@ type appContextType = {
   setUsername: (username: string) => void;
   keywords: string;
   setKeywords: (username: string) => void;
-  showForm: boolean;
-  toggleForm: () => void;
+  showPopup: boolean;
+  togglePopup: () => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   list: RepositoryData[] | any;
@@ -22,8 +22,8 @@ const appContextDefaultValues: appContextType = {
   setUsername: () => {},
   keywords: "",
   setKeywords: () => {},
-  showForm: true,
-  toggleForm: () => {},
+  showPopup: true,
+  togglePopup: () => {},
   isLoading: false,
   setIsLoading: () => {},
   list: [],
@@ -47,8 +47,8 @@ export function AppProvider({ children }: Props) {
   const [keywords, setKeywords] = useState<string>(
     appContextDefaultValues.keywords
   );
-  const [showForm, setShowForm] = useState<boolean>(
-    appContextDefaultValues.showForm
+  const [showPopup, setShowPopup] = useState<boolean>(
+    appContextDefaultValues.showPopup
   );
   const [isLoading, setIsLoading] = useState<boolean>(
     appContextDefaultValues.isLoading
@@ -60,8 +60,8 @@ export function AppProvider({ children }: Props) {
     appContextDefaultValues.languageList
   );
 
-  function toggleForm() {
-    setShowForm(!showForm);
+  function togglePopup() {
+    setShowPopup(!showPopup);
   }
 
   const value = {
@@ -69,8 +69,8 @@ export function AppProvider({ children }: Props) {
     setUsername,
     keywords,
     setKeywords,
-    showForm,
-    toggleForm,
+    showPopup,
+    togglePopup,
     isLoading,
     setIsLoading,
     list,

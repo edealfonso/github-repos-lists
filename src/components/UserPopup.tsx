@@ -9,8 +9,8 @@ import UserPopupClose from "./UserPopupClose";
 export default function UserPopup() {
   const [errorMessage, setErrorMessage] = useState<ReactElement>(<></>);
   const {
-    showForm,
-    toggleForm,
+    showPopup,
+    togglePopup,
     username,
     setUsername,
     setList,
@@ -47,7 +47,7 @@ export default function UserPopup() {
         setLanguageList(collectLanguages(results.items));
 
         // hides username form popup
-        toggleForm();
+        togglePopup();
       } else {
         // display error (returned from API)
         setErrorMessage(
@@ -68,7 +68,7 @@ export default function UserPopup() {
 
   return (
     <>
-      {showForm && (
+      {showPopup && (
         <div className="z-10 fixed inset-0 pb-4 flex items-center justify-center backdrop-brightness-50 bg-white/50 dark:bg-black/30">
           <form
             className="max-w-md	m-4 relative flex flex-col gap-5 items-center justify-center text-center p-8 rounded-sm border-solid border-2 border-black"

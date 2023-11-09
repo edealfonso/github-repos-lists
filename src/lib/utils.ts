@@ -1,5 +1,8 @@
 import { Language, RepositoryData } from "./types";
 
+// get all languages from list of repositories
+// create the array that will be used to create filters
+// and build API query search
 export function collectLanguages(items: RepositoryData[]): Language[] {
   return items
     .reduce((acc: string[], current: RepositoryData) => {

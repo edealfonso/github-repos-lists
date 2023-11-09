@@ -19,7 +19,8 @@ export default function LanguageSelector() {
     // show loader
     setIsLoading(true);
 
-    // update language list in conxtext state
+    // update language list in context state
+    // we must do this in a quite complicated way for it to work and not give linting problems **(*NOTE4*)**
     let newSelection: Language[] = languageList;
     newSelection[index] = {
       name: newSelection[index].name,

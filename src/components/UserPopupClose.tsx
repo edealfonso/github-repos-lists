@@ -4,12 +4,12 @@ import { AppContext } from "@/context/app-context";
 import Image from "next/image";
 
 export default function UserPopupClose() {
-  const { toggleForm } = useContext(AppContext);
+  const { togglePopup } = useContext(AppContext);
 
   return (
     <a
       className="absolute top-0 right-0 translate-x-5 -translate-y-5"
-      onClick={toggleForm}
+      onClick={togglePopup}
     >
       <Image
         className="p-1 bg-white rounded-full border-solid border-2 border-black"

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import RepositoryListItem from "./RepositoryListItem";
 
 export default function RepositoryList() {
-  const { username, toggleForm, list } = useContext(AppContext);
+  const { username, togglePopup, list } = useContext(AppContext);
 
   return (
     <>
@@ -13,7 +13,7 @@ export default function RepositoryList() {
         <p className="pb-4">
           Displaying {list.length} repositories for user <b>{username}</b>
           {` `}
-          <a onClick={toggleForm} className="text-xs align-[1px]">
+          <a onClick={togglePopup} className="text-xs align-[1px]">
             (change)
           </a>
         </p>
@@ -25,7 +25,7 @@ export default function RepositoryList() {
           ))}
         {!list && (
           <>
-            No results. <a onClick={toggleForm}>Start again</a>.
+            No results. <a onClick={togglePopup}>Start again</a>.
           </>
         )}
       </ul>

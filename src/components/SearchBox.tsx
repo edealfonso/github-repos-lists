@@ -48,6 +48,7 @@ export default function SearchBox() {
     setKeywords("");
 
     // reset languages selectors
+    // we must do this in a quite complicated way for it to work and not give linting problems **(*NOTE4*)**
     let newLanguageList = languageList.map((language) => {
       return {
         name: language.name,
