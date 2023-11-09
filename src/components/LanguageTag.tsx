@@ -29,19 +29,24 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
   }
 
   return (
-    <button
+    <a
       onClick={handleClick}
-      className={onButtonClick ? "cursor-pointer" : "cursor-default"}
+      className={
+        onButtonClick
+          ? "cursor-pointer no-underline text-inherit"
+          : "cursor-default no-underline text-inherit"
+      }
     >
       <small
-        className="block opacity-50 outline py-0.5 px-1 rounded-sm"
+        className="block opacity-50  outline py-0.5 px-1 rounded-sm"
         style={{
           backgroundColor: active ? "blue" : "unset",
-          color: active ? "white" : "unset",
+          color: active ? "beige" : "unset",
+          outlineColor: active ? "blue" : "inherit",
         }}
       >
         {children}
       </small>
-    </button>
+    </a>
   );
 }

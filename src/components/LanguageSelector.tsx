@@ -6,15 +6,25 @@ import { Language } from "@/lib/types";
 import { searchRepositories } from "@/api/github";
 
 export default function LanguageSelector() {
-  const { languageList, setLanguageList, username, setList, keywords } =
-    useContext(AppContext);
+  const {
+    setIsLoading,
+    languageList,
+    setLanguageList,
+    username,
+    setList,
+    keywords,
+  } = useContext(AppContext);
 
   async function handleLanguageClick(index: number) {
+    console.log("handleLanguageClick");
     let newSelection: Language[] = languageList;
     newSelection[index] = {
       name: newSelection[index].name,
       active: !newSelection[index].active,
     };
+
+    // show loader
+    setIsLoading(true);
 
     // update results
     const results: any = await searchRepositories(
@@ -26,6 +36,9 @@ export default function LanguageSelector() {
 
     // update language list
     setLanguageList(newSelection);
+
+    // remove loader
+    setIsLoading(false);
   }
 
   return (

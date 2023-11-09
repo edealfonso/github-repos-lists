@@ -13,17 +13,22 @@ export default function UserFormPopup() {
     username,
     setUsername,
     setList,
-    languageList,
+    setIsLoading,
     setLanguageList,
   } = useContext(AppContext);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    // show loader
+    setIsLoading(true);
+
     const formData = new FormData(event.currentTarget);
     const username: string | any = formData.get("username");
 
     if (username) {
+      console.log("handleSubmit form popup");
+
       const results: any = await searchRepositories(username);
 
       if (results.items) {
@@ -38,8 +43,14 @@ export default function UserFormPopup() {
         setLanguageList(collectLanguages(results.items));
 
         toggleForm();
+
+        // remove loader
+        setIsLoading(false);
       } else {
         setErrorMessage(results.message);
+
+        // remove loader
+        setIsLoading(false);
       }
     }
   }
@@ -47,7 +58,7 @@ export default function UserFormPopup() {
   return (
     <>
       {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center backdrop-brightness-50 bg-white/50">
+        <div className="z-10 fixed inset-0 flex items-center justify-center backdrop-brightness-50 bg-white/50">
           <form
             className="max-w-md	relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
             onSubmit={handleSubmit}

@@ -12,6 +12,7 @@ export default function SearchBox() {
     languageList,
     setLanguageList,
     setKeywords,
+    setIsLoading,
   } = useContext(AppContext);
 
   const [error, setError] = useState<any>("");
@@ -21,10 +22,18 @@ export default function SearchBox() {
   useEffect(clearFilters, [username]);
 
   async function handleClear(event: FormEvent<HTMLInputElement>) {
+    console.log("handleClear");
+
     event.preventDefault();
     clearFilters();
+
+    // show loader
+    setIsLoading(true);
+
     const results: any = await searchRepositories(username);
     setList(results.items);
+    // remove loader
+    setIsLoading(false);
   }
   function clearFilters() {
     if (inputKeywords.current) {
@@ -48,6 +57,10 @@ export default function SearchBox() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const keywords: string | any = formData.get("keywords");
+    console.log("white");
+
+    // show loader
+    setIsLoading(true);
 
     // fetch results
     const results: any = await searchRepositories(
@@ -65,6 +78,9 @@ export default function SearchBox() {
       // show error
       setError(results);
     }
+
+    // remove loader
+    setIsLoading(false);
   }
 
   return (
@@ -80,10 +96,10 @@ export default function SearchBox() {
                 Keywords
                 <input type="text" name="keywords" ref={inputKeywords} />
               </label>
-              <label className="flex flex-col gap-1 mt-4">
+              <div className="flex flex-col gap-1 mt-4">
                 <p>Languages</p>
                 <LanguageSelector />
-              </label>
+              </div>
               <div className="flex gap-2 justify-end">
                 <input className="mt-4" type="submit" value="Search" />
                 <input

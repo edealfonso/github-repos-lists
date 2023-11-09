@@ -9,12 +9,12 @@ type appContextType = {
   setKeywords: (username: string) => void;
   showForm: boolean;
   toggleForm: () => void;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
   list: RepositoryData[] | any;
   setList: RepositoryData[] | any;
   languageList: Language[];
   setLanguageList: (languages: Language[]) => void;
-  // languageSelection: boolean[];
-  // setLanguageSelection: (active: boolean[]) => void;
 };
 
 const appContextDefaultValues: appContextType = {
@@ -24,12 +24,12 @@ const appContextDefaultValues: appContextType = {
   setKeywords: () => {},
   showForm: true,
   toggleForm: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
   list: [],
   setList: ([]) => {},
   languageList: [],
   setLanguageList: ([]) => {},
-  // languageSelection: [],
-  // setLanguageSelection: ([]) => {},
 };
 
 export const AppContext = createContext<appContextType>(
@@ -50,15 +50,15 @@ export function AppProvider({ children }: Props) {
   const [showForm, setShowForm] = useState<boolean>(
     appContextDefaultValues.showForm
   );
+  const [isLoading, setIsLoading] = useState<boolean>(
+    appContextDefaultValues.isLoading
+  );
   const [list, setList] = useState<RepositoryData[]>(
     appContextDefaultValues.list
   );
   const [languageList, setLanguageList] = useState<Language[]>(
     appContextDefaultValues.languageList
   );
-  // const [languageSelection, setLanguageSelection] = useState<boolean[]>(
-  //   appContextDefaultValues.languageSelection
-  // );
 
   function toggleForm() {
     setShowForm(!showForm);
@@ -71,12 +71,12 @@ export function AppProvider({ children }: Props) {
     setKeywords,
     showForm,
     toggleForm,
+    isLoading,
+    setIsLoading,
     list,
     setList,
     languageList,
     setLanguageList,
-    // languageSelection,
-    // setLanguageSelection,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
