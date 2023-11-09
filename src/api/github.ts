@@ -3,11 +3,15 @@ import { Language } from "@/lib/types";
 export function searchRepositories(
   username: string,
   keywords: string = "",
-  language_array: Language[] = []
+  languageArray: Language[] = []
 ): Promise<any> {
-  const languages = language_array.reduce((acc, current) => {
+  const languages = languageArray.reduce((acc, current) => {
     if (current.active) {
-      return acc + " language:" + current.name;
+      let languageName = current.name;
+      if (languageName.indexOf(" ") >= 0) {
+        languageName = `"${languageName}"`;
+      }
+      return acc + " language:" + languageName;
     } else {
       return acc;
     }
