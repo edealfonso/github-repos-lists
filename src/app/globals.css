@@ -50,6 +50,8 @@ a:focus {
 }
 
 input {
+  color: var(--text-color);
+  background-color: var(--background-start-color);
   padding: 0.3rem 0.7rem;
   border-radius: 0.125rem;
 }
@@ -72,12 +74,21 @@ input[type="submit"]:focus {
   outline: 2px solid var(--button-color);
 }
 
+input[type="reset"]:hover {
+  outline: 2px solid var(--text-color);
+}
+
 h1 {
   font-size: 2rem;
   line-height: 1.2;
 }
 
+h2 {
+  font-size: 1.15rem;
+  line-height: 1.1;
+}
+
 small {
-  font-size: 0.7rem;
+  font-size: 0.7em;
   line-height: 1.2;
 }

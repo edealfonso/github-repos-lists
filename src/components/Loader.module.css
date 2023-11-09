@@ -2,10 +2,6 @@
   source: https://www.grepper.com/answers//?ucard=1
 */
 .loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border: 3px solid #999;
   border-radius: 50%;
   border-top: 3px solid var(--links-color);

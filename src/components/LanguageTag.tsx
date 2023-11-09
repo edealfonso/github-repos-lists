@@ -35,36 +35,30 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
   }
 
   return (
-    <a
-      onClick={handleClick}
-      className={
-        onButtonClick
-          ? "cursor-pointer no-underline text-inherit"
-          : "cursor-default no-underline text-inherit"
-      }
-      style={
-        !onButtonClick
-          ? {
-              display: "inline-block",
-              verticalAlign: "1px",
-            }
-          : {}
-      }
-    >
-      <small
-        className="block opacity-50 outline py-0.5 px-1 rounded-sm"
-        style={
-          active
-            ? {
-                backgroundColor: "blue",
-                color: "beige",
-                outlineColor: "blue",
-              }
-            : {}
-        }
-      >
-        {children}
-      </small>
-    </a>
+    <>
+      {onButtonClick && (
+        <a
+          onClick={handleClick}
+          className="py-0.5 px-1 no-underline text-inherit outline rounded-sm text-sm opacity-50 dark:opacity-100 hover:opacity-100"
+          style={
+            active
+              ? {
+                  backgroundColor: "var(--button-color)",
+                  color: "var(--background-alt-color)",
+                  outlineColor: "var(--button-color)",
+                  opacity: 1,
+                }
+              : {}
+          }
+        >
+          {children}
+        </a>
+      )}
+      {!onButtonClick && (
+        <small className="inline-block opacity-40 dark:opacity-60 block outline py-0.5 px-1 rounded-sm outline align-[2px]">
+          {children}
+        </small>
+      )}
+    </>
   );
 }

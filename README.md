@@ -1,64 +1,61 @@
 # **GitHub Repositories With Search Functionality**
 
-## Next.js
+## TO-DO
+- no repetir codigo hacer utils o algo (handleClickLanguage llevarlo a Searchbox? o incluso meter todas las searches en el context)
+- Animation / SOUND
+- Document with [ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
+  
+## Description
+This application provides a simple search functionality for GitHub Repositories.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Given a user, the program attempts populates a simple list of linked repositories. The results can be filtered by searching the repositories names or selecting programming languages of interest.
 
 ## Specs
-
-**GitHub Repositories With Search Functionality**
-Nothing out of this world here — GitHub repositories are basically just a glorified list.
-
-The task is to allow the user to type in the name of a github user and display his/her repositories in a list. The user should then be allowed to filter through the repositories by name and/or programming language.
-
-The interface doesn’t need to be unique; feel free to take inspiration from your favourite apps or even the Github interface itself. We would like to see a responsive interface that follows good user experience principles. (As an example of what we mean by this, check out [Laws of UX](https://lawsofux.com/).)
-Use the [official GitHub API](https://docs.github.com/en/rest) to fetch repositories per user.
-
-### Requirements
-
-- The application must be written using React
-- Use typescript
-- You are required to use git for versioning
-- Feel free to use any additional plugin/module to help you get the task done more
-effectively
-- Google Chrome is the testing browser
-
-### Extra credits
-
-Things that are not mandatory, but we would like to see:
-
-- +1 if you add storybook and divide the components
-- +1 if you write tests
-- +1 if deploy it somewhere (like [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/))
-- +1 If your [code is documented](https://google.github.io/styleguide/jsguide.html#jsdoc)
-- +1 If you’re up for the challenge, use the [v4 API](https://docs.github.com/en/graphql), which is built using GraphQL.
-- +1 If you write a README that includes
-    - A short description about the project
-    - Instructions on how to run it
-    - Instructions on how to run the test suite
-    - Future improvements
-
-
-## Notes
-- no repetir codigo hacer utils o algo
-- improve look of all / responsive / animation
-- Document. [Ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
-- README
-
-## Description
-A short description about the project
-GitHub Repositories With Search Functionality
+- React (Next.js) + Typescript
+  - This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+  - This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  - Start developing with live server with command `npm run dev`.
+- CSS: 
+  - Tailwind CSS
+  - Utility-first Methodology
+  - Compatibliity with dark-mode
+- APIs: 
+  - [GitHub REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28)
+- Versioning: 
+  - Git 
+  - [GitHub Repository](https://github.com/edealfonso/github-repos-lists)
+- Tested in: Google Chrome
+- Deployed in: [Netlify](https://unique-eclair-16ca45.netlify.app/)
 
 ## Instructions
-Instructions on how to run it
+
+1. User Form Popup
+    - The user is asked to write a GitHub username.
+    - The program attempts to fetch its repositories, by making a call to GitHub's REST API.
+    - In case of error, a message is displayed.
+
+2. Population of user results and filters
+    - If a correct response is obtained, a simple list of repositories is populated.
+    - Each item is linked to repository page, and has an indication of its main programming language.
+    - In parallel, a list of all the programming languages of this list of repositories **of that particular user** is populated, in order to create filters.
+
+3. Filtering
+   - User can now interact with the filtering system.
+   - In the "Keywords" input, the user can search repositories names. A new request to the API will take place when user presses "Search" submit, updating the results.
+   - The "Languages" selectors can be toggled to filter by programming language. Each click on a selector will send a new request to the API, updating the results.
+
+4. Changing the username
+    - User can also put back the popup and change the username.
+    - In case username is changed, the filters are reset and we go back to point 2 (not only repositories list but also **language filters are re-popupated**)
+
 
 ## Instructions on testing
-Instructions on how to run the test suite
+No test suite has been developed yet.
 
 ## Future improvements
-- Pagination (maximum 100)
-- Loader
+- Add pagination (now the maximum is set to 100 results)
+- Improve loader (set local loaders and a more customized animation)
+- Add animations
+- Add Storybook
+- Write tests
+- Use the GraphQL [v4 API](https://docs.github.com/en/graphql)

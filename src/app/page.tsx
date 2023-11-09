@@ -1,7 +1,7 @@
 import Loader from "@/components/Loader";
 import RepositoryList from "@/components/RepositoryList";
 import SearchBox from "@/components/SearchBox";
-import UserFormPopup from "@/components/UserFormPopup";
+import UserPopup from "@/components/UserPopup";
 import { AppProvider } from "@/context/app-context";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
         </h1>
       </header>
       <main>
-        <UserFormPopup />
+        <UserPopup />
         <SearchBox />
         <RepositoryList />
         <Loader />

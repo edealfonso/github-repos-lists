@@ -9,7 +9,7 @@ export default function RepositoryListItem({ item }: Props) {
   return (
     <li className="">
       <a className="no-underline pr-2" href={item.html_url} target="_blank">
-        {item.name}{" "}
+        <h2 className="inline">{item.name}</h2>{" "}
       </a>
       {item.language && <LanguageTag>{item.language}</LanguageTag>}
     </li>

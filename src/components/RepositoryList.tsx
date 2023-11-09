@@ -13,7 +13,7 @@ export default function RepositoryList() {
         <p className="pb-4">
           Displaying {list.length} repositories for user <b>{username}</b>
           {` `}
-          <a onClick={toggleForm} className="text-xs">
+          <a onClick={toggleForm} className="text-xs align-[1px]">
             (change)
           </a>
         </p>

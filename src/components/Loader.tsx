@@ -9,7 +9,7 @@ export default function Loader() {
   return (
     <>
       {isLoading && (
-        <div className="z-20 fixed inset-0 flex items-center justify-center backdrop-brightness-90 bg-white/50 text-center p-8 ">
+        <div className="z-20 fixed inset-0 pb-4 flex items-center justify-center backdrop-brightness-90 bg-white/50 dark:bg-black/30 text-center">
           <div className={style.loader}></div>
         </div>
       )}

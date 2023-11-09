@@ -1,12 +1,13 @@
 "use client";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, ReactElement, useContext, useState } from "react";
 import { searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
 import Image from "next/image";
 import { collectLanguages } from "@/lib/utils";
+import UserPopupClose from "./UserPopupClose";
 
-export default function UserFormPopup() {
-  const [errorMessage, setErrorMessage] = useState<string>("");
+export default function UserPopup() {
+  const [errorMessage, setErrorMessage] = useState<ReactElement>(<></>);
   const {
     showForm,
     toggleForm,
@@ -21,7 +22,7 @@ export default function UserFormPopup() {
     event.preventDefault();
 
     // reset error
-    setErrorMessage("");
+    setErrorMessage(<></>);
 
     // show loader
     setIsLoading(true);
@@ -48,21 +49,29 @@ export default function UserFormPopup() {
         // hides username form popup
         toggleForm();
       } else {
-        // display error
-        setErrorMessage(results.message);
+        // display error (returned from API)
+        setErrorMessage(
+          <>
+            {results.message}. <br />
+            Try another username.
+          </>
+        );
       }
-
-      // remove loader
-      setIsLoading(false);
+    } else {
+      // display error (no username)
+      setErrorMessage(<>Please, write a valid username</>);
     }
+
+    // remove loader
+    setIsLoading(false);
   }
 
   return (
     <>
       {showForm && (
-        <div className="z-10 fixed inset-0 flex items-center justify-center backdrop-brightness-50 bg-white/50">
+        <div className="z-10 fixed inset-0 pb-4 flex items-center justify-center backdrop-brightness-50 bg-white/50 dark:bg-black/30">
           <form
-            className="max-w-md	m-4 relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
+            className="max-w-md	m-4 relative flex flex-col gap-5 items-center justify-center text-center p-8 rounded-sm border-solid border-2 border-black"
             onSubmit={handleSubmit}
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
@@ -72,22 +81,9 @@ export default function UserFormPopup() {
             </label>
             <input className="mt-2" type="submit" value="Submit" />
             {errorMessage && (
-              <small className="opacity-50">{errorMessage}</small>
+              <small className="text-error">{errorMessage}</small>
             )}
-            {username && (
-              <a
-                className="absolute top-0 right-0 translate-x-5 -translate-y-5"
-                onClick={toggleForm}
-              >
-                <Image
-                  className="p-1 bg-white rounded-full border-solid border-2 border-black"
-                  src="/images/icons/close.svg"
-                  width={40}
-                  height={40}
-                  alt="✕"
-                />
-              </a>
-            )}
+            {username && <UserPopupClose />}
           </form>
         </div>
       )}{" "}

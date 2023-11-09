@@ -101,7 +101,7 @@ export default function SearchBox() {
                 <p>Languages</p>
                 <LanguageSelector />
               </div>
-              <div className="flex gap-2 justify-end mt-9 sm:mt-4">
+              <div className="flex gap-2 justify-end mt-9 sm:mt-6">
                 <input type="submit" value="Search" />
                 <input type="reset" onClick={handleClear} value="Clear" />
               </div>
@@ -114,7 +114,7 @@ export default function SearchBox() {
           There was an error in yout request.
           <br />
           <br />
-          <small>{error.message}</small>
+          <small className="text-error">{error.message}</small>
         </>
       )}
     </>
