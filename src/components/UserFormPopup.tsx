@@ -20,38 +20,40 @@ export default function UserFormPopup() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    // reset error
+    setErrorMessage("");
+
     // show loader
     setIsLoading(true);
 
+    // get form data (username input)
     const formData = new FormData(event.currentTarget);
     const username: string | any = formData.get("username");
 
     if (username) {
-      console.log("handleSubmit form popup");
-
+      // fetch results
       const results: any = await searchRepositories(username);
 
       if (results.items) {
-        setErrorMessage("");
-
+        // save username in context state
         setUsername(username);
 
-        // update repository list
+        // save repository list in context state
         setList(results.items);
 
-        // collect languages of all repositories from user
+        // collect languages from all repositories of user and
+        // save them in context state
         setLanguageList(collectLanguages(results.items));
 
+        // hides username form popup
         toggleForm();
-
-        // remove loader
-        setIsLoading(false);
       } else {
+        // display error
         setErrorMessage(results.message);
-
-        // remove loader
-        setIsLoading(false);
       }
+
+      // remove loader
+      setIsLoading(false);
     }
   }
 
@@ -60,12 +62,12 @@ export default function UserFormPopup() {
       {showForm && (
         <div className="z-10 fixed inset-0 flex items-center justify-center backdrop-brightness-50 bg-white/50">
           <form
-            className="max-w-md	relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
+            className="max-w-md	m-4 relative flex flex-col gap-5 items-center justify-center text-center p-8 mb-8 rounded-sm border-solid border-2 border-black"
             onSubmit={handleSubmit}
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
             <label className="flex flex-col gap-5">
-              Write a GitHub username
+              Please, write a GitHub username
               <input type="text" name="username" />
             </label>
             <input className="mt-2" type="submit" value="Submit" />

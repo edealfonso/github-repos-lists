@@ -2,7 +2,7 @@
 import { AppContext } from "@/context/app-context";
 import { RepositoryData } from "@/lib/types";
 import { useContext } from "react";
-import LanguageTag from "./LanguageTag";
+import RepositoryListItem from "./RepositoryListItem";
 
 export default function RepositoryList() {
   const { username, toggleForm, list } = useContext(AppContext);
@@ -21,12 +21,7 @@ export default function RepositoryList() {
       <ul className="flex flex-col gap-4 mt-6">
         {list &&
           list.map((item: RepositoryData, i: number) => (
-            <li className="flex items-center gap-3" key={i}>
-              <a className="no-underline" href={item.html_url} target="_blank">
-                {item.name}{" "}
-              </a>
-              {item.language && <LanguageTag>{item.language}</LanguageTag>}
-            </li>
+            <RepositoryListItem key={i} item={item} />
           ))}
         {!list && (
           <>

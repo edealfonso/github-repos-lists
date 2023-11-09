@@ -8,7 +8,10 @@ export default function Home() {
   return (
     <AppProvider>
       <header>
-        <h1>GitHub Repositories With Search Functionality</h1>
+        <h1>
+          GitHub Repositories
+          <br /> With Search Functionality
+        </h1>
       </header>
       <main>
         <UserFormPopup />

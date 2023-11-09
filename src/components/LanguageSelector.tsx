@@ -16,26 +16,27 @@ export default function LanguageSelector() {
   } = useContext(AppContext);
 
   async function handleLanguageClick(index: number) {
-    console.log("handleLanguageClick");
+    // show loader
+    setIsLoading(true);
+
+    // update language list in conxtext state
     let newSelection: Language[] = languageList;
     newSelection[index] = {
       name: newSelection[index].name,
       active: !newSelection[index].active,
     };
-
-    // show loader
-    setIsLoading(true);
+    setLanguageList(newSelection);
 
     // update results
     const results: any = await searchRepositories(
       username,
       keywords,
-      languageList
+      newSelection
     );
-    setList(results.items);
 
     // update language list
-    setLanguageList(newSelection);
+    // we assume the is no possible error in this step
+    setList(results.items);
 
     // remove loader
     setIsLoading(false);

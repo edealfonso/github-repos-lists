@@ -19,31 +19,35 @@ export default function SearchBox() {
 
   const inputKeywords = useRef<HTMLInputElement>(null);
 
-  useEffect(clearFilters, [username]);
+  // reset filters when username is changed
+  useEffect(resetFilters, [username]);
 
   async function handleClear(event: FormEvent<HTMLInputElement>) {
-    console.log("handleClear");
-
     event.preventDefault();
-    clearFilters();
 
     // show loader
     setIsLoading(true);
 
+    // reset filters
+    resetFilters();
+
+    // perform another search without filters
+    // and save results in context state
     const results: any = await searchRepositories(username);
     setList(results.items);
+
     // remove loader
     setIsLoading(false);
   }
-  function clearFilters() {
+
+  function resetFilters() {
+    // reset keywords input
     if (inputKeywords.current) {
       inputKeywords.current.value = "";
     }
     setKeywords("");
-    deactivateAllLanguages();
-  }
 
-  function deactivateAllLanguages() {
+    // reset languages selectors
     let newLanguageList = languageList.map((language) => {
       return {
         name: language.name,
@@ -55,27 +59,24 @@ export default function SearchBox() {
 
   async function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const keywords: string | any = formData.get("keywords");
-    console.log("white");
 
     // show loader
     setIsLoading(true);
 
-    // fetch results
+    // get form data (keywords input) and save in context state
+    const formData = new FormData(event.currentTarget);
+    const keywords: string | any = formData.get("keywords");
+    setKeywords(keywords);
+
+    // fetch results and update context state or show error
     const results: any = await searchRepositories(
       username,
       keywords,
       languageList
     );
     if (results.items) {
-      // update results
       setList(results.items);
-
-      // update keyword
-      setKeywords(keywords);
     } else {
-      // show error
       setError(results);
     }
 
@@ -88,7 +89,7 @@ export default function SearchBox() {
       {username && list && (
         <>
           <div
-            className="mb-12 p-2 rounded-sm max-w-2xl md:p-4"
+            className="mb-12 p-3 rounded-sm max-w-2xl md:p-4"
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
             <form onSubmit={handleSearch}>
@@ -96,18 +97,13 @@ export default function SearchBox() {
                 Keywords
                 <input type="text" name="keywords" ref={inputKeywords} />
               </label>
-              <div className="flex flex-col gap-1 mt-4">
+              <div className="flex flex-col gap-1 mt-6 sm:mt-4">
                 <p>Languages</p>
                 <LanguageSelector />
               </div>
-              <div className="flex gap-2 justify-end">
-                <input className="mt-4" type="submit" value="Search" />
-                <input
-                  className="mt-4"
-                  type="reset"
-                  onClick={handleClear}
-                  value="Clear"
-                />
+              <div className="flex gap-2 justify-end mt-9 sm:mt-4">
+                <input type="submit" value="Search" />
+                <input type="reset" onClick={handleClear} value="Clear" />
               </div>
             </form>
           </div>
