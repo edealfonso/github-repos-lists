@@ -15,6 +15,9 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
     // update active state if languageList is changed from outside the component (e.g: "Clear" button)
     if (index) {
       setActive(languageList[index].active);
+    } else {
+      // this ensures a reset for new elements when language list is re-populated for a new user name
+      setActive(false);
     }
   }, [languageList, index]);
 

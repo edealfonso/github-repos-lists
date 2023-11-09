@@ -21,8 +21,7 @@ export function searchRepositories(
     "&per_page=100";
 
   const url = `https://api.github.com/search/repositories?${queryString}`;
-  console.log(url);
-  console.log("Bearer " + process.env.GITHUB_AUTH_KEY);
+  console.log("Fetched REST API:", url);
 
   return fetch(url, {
     headers: {
