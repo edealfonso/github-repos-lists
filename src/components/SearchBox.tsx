@@ -4,9 +4,8 @@ import { AppContext } from "@/context/app-context";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import LanguageSelector from "./LanguageSelector";
 
-export default function SearchBar() {
+export default function SearchBox() {
   const {
-    toggleForm,
     username,
     setList,
     list,
@@ -36,8 +35,7 @@ export default function SearchBar() {
   }
 
   function deactivateAllLanguages() {
-    let newLanguageList = languageList;
-    newLanguageList.map((language) => {
+    let newLanguageList = languageList.map((language) => {
       return {
         name: language.name,
         active: false,
@@ -64,7 +62,6 @@ export default function SearchBar() {
       // update keyword
       setKeywords(keywords);
     } else {
-      console.log(results);
       // show error
       setError(results);
     }
@@ -75,7 +72,7 @@ export default function SearchBar() {
       {username && list && (
         <>
           <div
-            className="mb-4 p-2 rounded-sm max-w-2xl md:p-4"
+            className="mb-12 p-2 rounded-sm max-w-2xl md:p-4"
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
             <form onSubmit={handleSearch}>
@@ -98,13 +95,6 @@ export default function SearchBar() {
               </div>
             </form>
           </div>
-          <p>
-            Displaying results of user <b>{username}</b>
-            {` `}
-            <a onClick={toggleForm} className="text-xs">
-              (change)
-            </a>
-          </p>
         </>
       )}
       {error && (

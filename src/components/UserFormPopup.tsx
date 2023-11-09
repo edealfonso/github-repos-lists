@@ -5,7 +5,7 @@ import { AppContext } from "@/context/app-context";
 import Image from "next/image";
 import { collectLanguages } from "@/lib/utils";
 
-export default function UserForm() {
+export default function UserFormPopup() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const {
     showForm,
@@ -13,6 +13,7 @@ export default function UserForm() {
     username,
     setUsername,
     setList,
+    languageList,
     setLanguageList,
   } = useContext(AppContext);
 

@@ -1,6 +1,6 @@
 import RepositoryList from "@/components/RepositoryList";
-import SearchBar from "@/components/SearchBar";
-import UserForm from "@/components/UserForm";
+import SearchBox from "@/components/SearchBox";
+import UserFormPopup from "@/components/UserFormPopup";
 import { AppProvider } from "@/context/app-context";
 
 export default function Home() {
@@ -10,8 +10,8 @@ export default function Home() {
         <h1>GitHub Repositories With Search Functionality</h1>
       </header>
       <main>
-        <UserForm />
-        <SearchBar />
+        <UserFormPopup />
+        <SearchBox />
         <RepositoryList />
       </main>
     </AppProvider>

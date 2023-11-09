@@ -44,13 +44,8 @@ Things that are not mandatory, but we would like to see:
 
 
 ## Notes
-
-- active reset cant be made
-- improve no results behaviour on list (API limit in list)
-- improve look of all / responsive
-- add some animation?
-  
-- Deploy
+- no repetir codigo hacer utils o algo
+- improve look of all / responsive / animation
 - Document. [Ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
 - README
 
@@ -65,4 +60,5 @@ Instructions on how to run it
 Instructions on how to run the test suite
 
 ## Future improvements
-Future improvements
+- Pagination (maximum 100)
+- Loader

@@ -9,11 +9,11 @@ export default function LanguageSelector() {
   const { languageList, setLanguageList, username, setList, keywords } =
     useContext(AppContext);
 
-  async function handleLanguageClick(i: number) {
+  async function handleLanguageClick(index: number) {
     let newSelection: Language[] = languageList;
-    newSelection[i] = {
-      name: newSelection[i].name,
-      active: !newSelection[i].active,
+    newSelection[index] = {
+      name: newSelection[index].name,
+      active: !newSelection[index].active,
     };
 
     // update results
@@ -29,12 +29,13 @@ export default function LanguageSelector() {
   }
 
   return (
-    <ul className="flex flex-wrap gap-2">
+    <ul className="flex flex-wrap gap-2 mt-1">
       {languageList &&
         languageList.map((language: Language, i: number) => {
           return (
             <li className="flex items-center gap-3" key={i}>
               <LanguageTag
+                index={i}
                 onButtonClick={() => {
                   handleLanguageClick(i);
                 }}

@@ -1,11 +1,4 @@
 import { Language } from "@/lib/types";
-import { Octokit } from "@octokit/core";
-
-// Octokit.js
-// https://github.com/octokit/core.js#readme
-const octokit = new Octokit({
-  auth: "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",
-});
 
 export function searchRepositories(
   username: string,
@@ -24,14 +17,17 @@ export function searchRepositories(
     "q=" +
     encodeURIComponent(
       `${keywords} ${languages} user:${username} sort:updated`
-    );
+    ) +
+    "&per_page=100";
 
-  console.log(`https://api.github.com/search/repositories?${queryString}`);
+  const url = `https://api.github.com/search/repositories?${queryString}`;
+  console.log(url);
+  console.log("Bearer " + process.env.GITHUB_AUTH_KEY);
 
-  return fetch(`https://api.github.com/search/repositories?${queryString}`, {
+  return fetch(url, {
     headers: {
       "X-GitHub-Api-Version": "2022-11-28",
-      Authorization: "Bearer " + "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",
+      Authorization: "Bearer " + process.env.GITHUB_AUTH_KEY,
     },
   })
     .then((response) => response.json())
