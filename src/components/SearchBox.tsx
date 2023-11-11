@@ -4,6 +4,7 @@ import { AppContext } from "@/context/app-context";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import LanguageSelector from "./LanguageSelector";
 import ErrorMessage from "./common/ErrorMessage";
+import RepositoryCount from "./RepositoryCount";
 
 export default function SearchBox() {
   const {
@@ -92,12 +93,13 @@ export default function SearchBox() {
       {username && list && (
         <>
           <div
-            className="relative mb-12 p-3 rounded-sm max-w-2xl md:p-4"
+            className="relative mb-12 p-3 rounded-sm max-w-2xl md:p-6"
             style={{
               backgroundColor: "var(--background-alt-color)",
-              width: showFilters ? "100%" : "fit-content",
             }}
           >
+            <RepositoryCount />
+
             <form
               style={{ display: showFilters ? "block" : "none" }}
               onSubmit={handleSearch}

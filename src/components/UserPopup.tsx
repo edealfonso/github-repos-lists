@@ -1,5 +1,11 @@
 "use client";
-import { FormEvent, ReactElement, useContext, useState } from "react";
+import {
+  FormEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { getUser, searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
 import Image from "next/image";
@@ -20,11 +26,22 @@ export default function UserPopup() {
     setLanguageList,
   } = useContext(AppContext);
 
+  // reset error messages when starting to perform an action
+  useEffect(() => {
+    if (loadMessage) {
+      setErrorMessage(null);
+    }
+  }, [loadMessage]);
+
+  // hide loader when error messages appear
+  useEffect(() => {
+    if (errorMessage) {
+      setLoadMessage(null);
+    }
+  }, [errorMessage]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    // reset error
-    setErrorMessage(null);
 
     // show loader
     setLoadMessage(<>Looking for user ...</>);
@@ -33,83 +50,87 @@ export default function UserPopup() {
     const formData = new FormData(event.currentTarget);
     const username: string | any = formData.get("username");
 
-    if (username) {
-      // first, check that user exists
-      const userData: any = await getUser(username);
-
-      // if user not found display error
-      if (userData.message) {
-        if (userData.message == "Not Found") {
-          setErrorMessage(
-            <>
-              User not found.
-              <br />
-              Try another username.
-            </>
-          );
-        } else {
-          setErrorMessage(<>{userData.message}</>);
-        }
-        setLoadMessage(null);
-        return;
-      }
-
-      console.log(userData);
-      // if no repos found
-      if (userData.public_repos == 0) {
-        setErrorMessage(
-          <>
-            No public repositories found for this user.
-            <br />
-            Please try another username.
-          </>
-        );
-        setLoadMessage(null);
-        return;
-      }
-
-      // update loader
-      setLoadMessage(<>Fetching repositories ...</>);
-
-      // fetch results
-      const results: any = await searchRepositories(username);
-
-      console.log(results);
-
-      if (results.items) {
-        // save username in context state
-        setUsername(username);
-
-        // save repository list in context state
-        setList(results.items);
-
-        // collect languages from all repositories of user and
-        // save them in context state
-        setLanguageList(collectLanguages(results.items));
-
-        // hides username form popup
-        togglePopup();
-      } else {
-        // display error (returned from API)
-        setErrorMessage(
-          <>
-            {results.message}.
-            {results.errors &&
-              results.errors.map((error: any) => (
-                <>
-                  <br />
-                  {error.message}
-                </>
-              ))}
-          </>
-        );
-      }
-    } else {
-      // display error (no username)
+    // display error (no username)
+    if (!username) {
       setErrorMessage(<>Please, write a valid username</>);
+      return;
     }
 
-    // remove loader
+    const verified = await verifyUser(username);
+    if (verified) {
+      fetchRepositories(username);
+    }
+  }
+
+  // function that verifies if user exists and has public respositories
+  async function verifyUser(username: string) {
+    // API REQUEST (check that user exists)
+    const userData: any = await getUser(username);
+
+    // display error (user not found)
+    if (userData.message) {
+      if (userData.message == "Not Found") {
+        setErrorMessage(
+          <>
+            User not found.
+            <br />
+            Try another username.
+          </>
+        );
+      } else {
+        setErrorMessage(<>{userData.message}</>);
+      }
+      return false;
+    }
+
+    // display error (no repos found)
+    if (userData.public_repos == 0) {
+      setErrorMessage(
+        <>
+          No public repositories found for this user.
+          <br />
+          Please try another username.
+        </>
+      );
+      return false;
+    }
+    return true;
+  }
+
+  // function that
+  // 1- fetches repositories from verified user
+  // 2- if correctly found, updates context variables and updates UI accordingly
+  async function fetchRepositories(username: string) {
+    // update loader
+    setLoadMessage(<>Fetching repositories ...</>);
+
+    // API REQUEST (fetch repos)
+    const results: any = await searchRepositories(username);
+
+    // display error (no items populated, reads API error message)
+    if (!results.items) {
+      setErrorMessage(
+        <>
+          {results.message}.
+          {results.errors &&
+            results.errors.map((error: any) => (
+              <>
+                <br />
+                {error.message}
+              </>
+            ))}
+        </>
+      );
+    }
+
+    // if all the process is successfull save data in context state
+    // language are collected utility function
+    setUsername(username);
+    setList(results.items);
+    setLanguageList(collectLanguages(results.items));
+
+    // update UI
+    togglePopup();
     setLoadMessage(null);
   }
 
@@ -129,7 +150,13 @@ export default function UserPopup() {
             </label>
             <input className="my-2" type="submit" value="Submit" />
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            {username && <UserPopupClose />}
+            {username && (
+              <UserPopupClose
+                onPopupClose={() => {
+                  setErrorMessage(null);
+                }}
+              />
+            )}
             {loadMessage && <Loader local>{loadMessage}</Loader>}
           </form>
         </div>

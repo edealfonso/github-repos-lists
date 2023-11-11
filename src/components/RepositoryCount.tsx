@@ -8,7 +8,7 @@ export default function RepositoryCount() {
   return (
     <>
       {username && (
-        <p className="pb-4">
+        <p className="pb-6">
           Displaying {list.length} repositories for user <b>{username}</b>
           {` `}
           <a onClick={togglePopup} className="text-xs align-[1px]">

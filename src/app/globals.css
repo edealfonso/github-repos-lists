@@ -30,8 +30,8 @@ body {
   color: var(--text-color);
   background: linear-gradient(
       to bottom,
-      transparent 5rem,
-      var(--background-end-color) 20rem
+      transparent,
+      var(--background-end-color)
     )
     var(--background-start-color);
   letter-spacing: 0.01em;

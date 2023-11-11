@@ -39,7 +39,7 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
       {onButtonClick && (
         <a
           onClick={handleClick}
-          className="py-0.5 px-1 no-underline text-inherit outline rounded-sm text-sm opacity-50 dark:opacity-100 hover:opacity-100"
+          className="py-0.5 px-1 no-underline text-inherit outline outline-1 rounded-sm text-sm opacity-50 dark:opacity-100 hover:opacity-100"
           style={
             active
               ? {
@@ -55,7 +55,7 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
         </a>
       )}
       {!onButtonClick && (
-        <small className="inline-block opacity-40 dark:opacity-60 block outline py-0.5 px-1 rounded-sm outline align-[2px]">
+        <small className="inline-block opacity-40 dark:opacity-60 block outline outline-1	py-0.5 px-1 rounded-sm outline align-[2px]">
           {children}
         </small>
       )}

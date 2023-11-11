@@ -13,6 +13,8 @@ const config: Config = {
       error: "#FF5722",
       beige: "beige",
       gray: "rgb(68, 68, 68)",
+      blue: "rgb(84, 168, 212)",
+      lightblue: "rgb(147, 215, 230)",
     },
   },
   plugins: [],

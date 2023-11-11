@@ -9,7 +9,6 @@ export default function Home() {
   return (
     <AppProvider>
       <main>
-        <RepositoryCount />
         <SearchBox />
         <RepositoryList />
         <UserPopup />
