@@ -1,7 +1,7 @@
 "use client";
 import { AppContext } from "@/context/app-context";
 import { useContext } from "react";
-import LanguageTag from "./LanguageTag";
+import LanguageTag from "./common/LanguageTag";
 import { Language } from "@/lib/types";
 import { searchRepositories } from "@/api/github";
 

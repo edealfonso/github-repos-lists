@@ -1,20 +1,22 @@
 "use client";
 import { FormEvent, ReactElement, useContext, useState } from "react";
-import { searchRepositories } from "@/api/github";
+import { getUser, searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
 import Image from "next/image";
 import { collectLanguages } from "@/lib/utils";
 import UserPopupClose from "./UserPopupClose";
+import Loader from "./common/Loader";
+import ErrorMessage from "./common/ErrorMessage";
 
 export default function UserPopup() {
-  const [errorMessage, setErrorMessage] = useState<ReactElement>(<></>);
+  const [errorMessage, setErrorMessage] = useState<ReactElement | null>(null);
+  const [loadMessage, setLoadMessage] = useState<ReactElement | null>(null);
   const {
     showPopup,
     togglePopup,
     username,
     setUsername,
     setList,
-    setIsLoading,
     setLanguageList,
   } = useContext(AppContext);
 
@@ -22,18 +24,57 @@ export default function UserPopup() {
     event.preventDefault();
 
     // reset error
-    setErrorMessage(<></>);
+    setErrorMessage(null);
 
     // show loader
-    setIsLoading(true);
+    setLoadMessage(<>Looking for user ...</>);
 
     // get form data (username input)
     const formData = new FormData(event.currentTarget);
     const username: string | any = formData.get("username");
 
     if (username) {
+      // first, check that user exists
+      const userData: any = await getUser(username);
+
+      // if user not found display error
+      if (userData.message) {
+        if (userData.message == "Not Found") {
+          setErrorMessage(
+            <>
+              User not found.
+              <br />
+              Try another username.
+            </>
+          );
+        } else {
+          setErrorMessage(<>{userData.message}</>);
+        }
+        setLoadMessage(null);
+        return;
+      }
+
+      console.log(userData);
+      // if no repos found
+      if (userData.public_repos == 0) {
+        setErrorMessage(
+          <>
+            No public repositories found for this user.
+            <br />
+            Please try another username.
+          </>
+        );
+        setLoadMessage(null);
+        return;
+      }
+
+      // update loader
+      setLoadMessage(<>Fetching repositories ...</>);
+
       // fetch results
       const results: any = await searchRepositories(username);
+
+      console.log(results);
 
       if (results.items) {
         // save username in context state
@@ -52,8 +93,14 @@ export default function UserPopup() {
         // display error (returned from API)
         setErrorMessage(
           <>
-            {results.message}. <br />
-            Try another username.
+            {results.message}.
+            {results.errors &&
+              results.errors.map((error: any) => (
+                <>
+                  <br />
+                  {error.message}
+                </>
+              ))}
           </>
         );
       }
@@ -63,27 +110,27 @@ export default function UserPopup() {
     }
 
     // remove loader
-    setIsLoading(false);
+    setLoadMessage(null);
   }
 
   return (
     <>
       {showPopup && (
-        <div className="z-10 fixed inset-0 pb-4 flex items-center justify-center backdrop-brightness-50 bg-white/50 dark:bg-black/30">
+        <div className="z-10 fixed inset-0 pb-4 flex items-center justify-center bg-white dark:bg-black">
           <form
-            className="max-w-md	m-4 relative flex flex-col gap-5 items-center justify-center text-center p-8 rounded-sm border-solid border-2 border-black"
+            className="max-w-md m-4 relative flex flex-col gap-6 items-center justify-center text-center px-12 pb-12 pt-6 rounded-sm border-solid border-2 border-black"
             onSubmit={handleSubmit}
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
-            <label className="flex flex-col gap-5">
-              Please, write a GitHub username
+            <h5 className="pb-2">GitHub repo spy</h5>
+            <label className="flex flex-col gap-3">
+              Please, write a GitHub username...
               <input type="text" name="username" />
             </label>
-            <input className="mt-2" type="submit" value="Submit" />
-            {errorMessage && (
-              <small className="text-error">{errorMessage}</small>
-            )}
+            <input className="my-2" type="submit" value="Submit" />
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             {username && <UserPopupClose />}
+            {loadMessage && <Loader local>{loadMessage}</Loader>}
           </form>
         </div>
       )}{" "}

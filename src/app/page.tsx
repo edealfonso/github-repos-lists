@@ -1,4 +1,5 @@
-import Loader from "@/components/Loader";
+import Loader from "@/components/common/Loader";
+import RepositoryCount from "@/components/RepositoryCount";
 import RepositoryList from "@/components/RepositoryList";
 import SearchBox from "@/components/SearchBox";
 import UserPopup from "@/components/UserPopup";
@@ -7,16 +8,11 @@ import { AppProvider } from "@/context/app-context";
 export default function Home() {
   return (
     <AppProvider>
-      <header>
-        <h1>
-          GitHub Repositories
-          <br /> With Search Functionality
-        </h1>
-      </header>
       <main>
-        <UserPopup />
+        <RepositoryCount />
         <SearchBox />
         <RepositoryList />
+        <UserPopup />
         <Loader />
       </main>
     </AppProvider>

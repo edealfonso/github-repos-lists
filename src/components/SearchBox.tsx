@@ -3,6 +3,7 @@ import { searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import LanguageSelector from "./LanguageSelector";
+import ErrorMessage from "./common/ErrorMessage";
 
 export default function SearchBox() {
   const {
@@ -16,6 +17,7 @@ export default function SearchBox() {
   } = useContext(AppContext);
 
   const [error, setError] = useState<any>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const inputKeywords = useRef<HTMLInputElement>(null);
 
@@ -90,10 +92,16 @@ export default function SearchBox() {
       {username && list && (
         <>
           <div
-            className="mb-12 p-3 rounded-sm max-w-2xl md:p-4"
-            style={{ backgroundColor: "var(--background-alt-color)" }}
+            className="relative mb-12 p-3 rounded-sm max-w-2xl md:p-4"
+            style={{
+              backgroundColor: "var(--background-alt-color)",
+              width: showFilters ? "100%" : "fit-content",
+            }}
           >
-            <form onSubmit={handleSearch}>
+            <form
+              style={{ display: showFilters ? "block" : "none" }}
+              onSubmit={handleSearch}
+            >
               <label className="flex flex-col gap-1">
                 Keywords
                 <input type="text" name="keywords" ref={inputKeywords} />
@@ -107,6 +115,14 @@ export default function SearchBox() {
                 <input type="reset" onClick={handleClear} value="Clear" />
               </div>
             </form>
+            <a
+              onClick={() => {
+                setShowFilters((current) => !current);
+              }}
+              className={showFilters ? "active" : "inactive"}
+            >
+              {showFilters ? " Hide Filters" : " Show Filters"}
+            </a>
           </div>
         </>
       )}
@@ -115,7 +131,7 @@ export default function SearchBox() {
           There was an error in yout request.
           <br />
           <br />
-          <small className="text-error">{error.message}</small>
+          <ErrorMessage>{error.message}</ErrorMessage>
         </>
       )}
     </>

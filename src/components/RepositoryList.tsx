@@ -5,30 +5,19 @@ import { useContext } from "react";
 import RepositoryListItem from "./RepositoryListItem";
 
 export default function RepositoryList() {
-  const { username, togglePopup, list } = useContext(AppContext);
+  const { togglePopup, list } = useContext(AppContext);
 
   return (
-    <>
-      {username && (
-        <p className="pb-4">
-          Displaying {list.length} repositories for user <b>{username}</b>
-          {` `}
-          <a onClick={togglePopup} className="text-xs align-[1px]">
-            (change)
-          </a>
-        </p>
+    <ul className="flex flex-col gap-4 mt-6">
+      {list &&
+        list.map((item: RepositoryData, i: number) => (
+          <RepositoryListItem key={i} item={item} />
+        ))}
+      {!list && (
+        <>
+          No results. <a onClick={togglePopup}>Start again</a>.
+        </>
       )}
-      <ul className="flex flex-col gap-4 mt-6">
-        {list &&
-          list.map((item: RepositoryData, i: number) => (
-            <RepositoryListItem key={i} item={item} />
-          ))}
-        {!list && (
-          <>
-            No results. <a onClick={togglePopup}>Start again</a>.
-          </>
-        )}
-      </ul>
-    </>
+    </ul>
   );
 }

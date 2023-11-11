@@ -1,4 +1,4 @@
-# **GitHub Repositories With Search Functionality**
+# **GitHub Repo Spy**
 
 ## TO-DO
 - no repetir codigo hacer utils o algo (handleClickLanguage llevarlo a Searchbox? o incluso meter todas las searches en el context)
@@ -21,7 +21,7 @@ Given a user, the program attempts populates a simple list of linked repositorie
   - Utility-first Methodology
   - Compatibliity with dark-mode
 - APIs: 
-  - [GitHub REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28)
+  - [GitHub REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28), using API AUTH KEY, stored as environment variable
 - Versioning: 
   - Git 
   - [GitHub Repository](https://github.com/edealfonso/github-repos-lists)
@@ -66,14 +66,14 @@ No test suite has been developed yet.
 
 ## Problems/findings encountered during development
 Search for `**(*NOTEX*)**` in comments.
-- **(*NOTE1*)**: The GitHub API offers a very complete repositories search that can satisfy all requerements, but the search query must be carefully constructed using `encodeURIComponent`.
-- **(*NOTE2*)**: Languages names with spaces must be wrapped in `"  "` so that the API search query works.
-- **(*NOTE3*)**: The `key` of listed components propreties becomes `undefined` at some point of the rendering and it's not something you can rely on.
-- **(*NOTE4*)**: State variables of arrays are tricky to update.
+- The GitHub API offers a very complete repositories search that can satisfy all requerements, but the search query must be carefully constructed using `encodeURIComponent`. **(*NOTE1*)**
+- Languages names with spaces must be wrapped in `"  "` so that the API search query works. **(*NOTE2*)**
+- The `key` of listed components propreties becomes `undefined` at some point of the rendering and it's not something you can rely on. **(*NOTE3*)**
+- State variables of arrays are tricky to update. **(*NOTE4*)**
+- Only non-forked repositories are shown, as it is the default for search results. Could be changed adding `fork:true` to query string.
 
 ## Future improvements
 - Add pagination (now the maximum is set to 100 results)
-- Improve loader (set local loaders and a more customized animation)
 - Add animations
 - Add Storybook
 - Write tests

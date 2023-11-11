@@ -1,5 +1,5 @@
 import { RepositoryData } from "@/lib/types";
-import LanguageTag from "./LanguageTag";
+import LanguageTag from "./common/LanguageTag";
 
 interface Props {
   item: RepositoryData;

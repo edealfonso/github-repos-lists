@@ -5,7 +5,7 @@ export function searchRepositories(
   keywords: string = "",
   languageArray: Language[] = []
 ): Promise<any> {
-  // create languages for query string
+  // generate query string for language filtering
   const languages = languageArray.reduce((acc, current) => {
     // only add active languages
     if (current.active) {
@@ -35,6 +35,22 @@ export function searchRepositories(
 
   // final url
   const url = `https://api.github.com/search/repositories?${queryString}`;
+  console.log("Fetched REST API:", url);
+
+  // return fetch promise
+  return fetch(url, {
+    headers: {
+      "X-GitHub-Api-Version": "2022-11-28",
+      Authorization: "Bearer " + process.env.GITHUB_AUTH_KEY,
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.error(err));
+}
+
+export function getUser(username: string): Promise<any> {
+  // final url
+  const url = `https://api.github.com/users/${username}`;
   console.log("Fetched REST API:", url);
 
   // return fetch promise

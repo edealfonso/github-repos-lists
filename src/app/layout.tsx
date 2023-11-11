@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GitHub Repositories With Search Functionality",
+  title: "GitHub repo spy",
   description: "GitHub Repositories With Search Functionality",
 };
 
@@ -19,10 +21,9 @@ export default function RootLayout({
       <body
         className={`${inter.className} min-h-screen p-5 sm:p-16 flex flex-col gap-6`}
       >
+        <Header />
         {children}
-        <footer className="grow flex items-end text-xs mt-6">
-          ©2023 Elsa de Alfonso
-        </footer>
+        <Footer />
       </body>
     </html>
   );
