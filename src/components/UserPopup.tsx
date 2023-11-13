@@ -14,8 +14,10 @@ import Loader from "./common/Loader";
 import ErrorMessage from "./common/ErrorMessage";
 
 export default function UserPopup() {
-  const [errorMessage, setErrorMessage] = useState<ReactElement | null>(null);
-  const [loadMessage, setLoadMessage] = useState<ReactElement | null>(null);
+  const [localError, setLocalError] = useState<ReactElement | null>(null);
+  const [localLoaderMessage, setLocalLoaderMessage] =
+    useState<ReactElement | null>(null);
+
   const {
     showPopup,
     togglePopup,
@@ -27,23 +29,23 @@ export default function UserPopup() {
 
   // reset error messages when starting to perform an action
   useEffect(() => {
-    if (loadMessage) {
-      setErrorMessage(null);
+    if (localLoaderMessage) {
+      setLocalError(null);
     }
-  }, [loadMessage]);
+  }, [localLoaderMessage]);
 
   // hide loader when error messages appear
   useEffect(() => {
-    if (errorMessage) {
-      setLoadMessage(null);
+    if (localError) {
+      setLocalLoaderMessage(null);
     }
-  }, [errorMessage]);
+  }, [localError]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // show loader
-    setLoadMessage(<>Looking for user ...</>);
+    // show message in local loader
+    setLocalLoaderMessage(<>Looking for user ...</>);
 
     // get form data (username input)
     const formData = new FormData(event.currentTarget);
@@ -51,17 +53,23 @@ export default function UserPopup() {
 
     // display error (no username)
     if (!username) {
-      setErrorMessage(<>Please, write a valid username</>);
+      setLocalError(<>Please, write a valid username</>);
       return;
     }
 
-    const verified = await verifyUser(username);
-    if (verified) {
-      fetchRepositories(username);
+    // verify if user exists and has public repositories
+    // otherwise display error messages
+    const verifiedUser = await verifyUser(username);
+
+    // if verified, fetch repositories
+    // and update with results / error messages
+    if (verifiedUser) {
+      fetchRepositoriesAndUpdate(username);
     }
   }
 
-  // function that verifies if user exists and has public respositories
+  // verify if user exists and has public respositories
+  // displays errors in case not
   async function verifyUser(username: string) {
     // API REQUEST (check that user exists)
     const userData: any = await getUser(username);
@@ -69,46 +77,46 @@ export default function UserPopup() {
     // display error (user not found)
     if (userData.message) {
       if (userData.message == "Not Found") {
-        setErrorMessage(
+        setLocalError(
           <>
             User not found.
             <br />
             Try another username.
-          </>,
+          </>
         );
       } else {
-        setErrorMessage(<>{userData.message}</>);
+        setLocalError(<>{userData.message}</>);
       }
       return false;
     }
 
     // display error (no repos found)
     if (userData.public_repos == 0) {
-      setErrorMessage(
+      setLocalError(
         <>
           No public repositories found for this user.
           <br />
           Please try another username.
-        </>,
+        </>
       );
       return false;
     }
     return true;
   }
 
-  // function that
-  // 1- fetches repositories from verified user
-  // 2- if correctly found, updates context variables and updates UI accordingly
-  async function fetchRepositories(username: string) {
-    // update loader
-    setLoadMessage(<>Fetching repositories ...</>);
+  // fetch repositories from verified user
+  // if correctly found, updates context variables and updates UI accordingly
+  // else, displays error
+  async function fetchRepositoriesAndUpdate(username: string) {
+    // update local loader
+    setLocalLoaderMessage(<>Fetching repositories ...</>);
 
     // API REQUEST (fetch repos)
     const results: any = await searchRepositories({ username });
 
     // display error (no items populated, reads API error message)
     if (!results.items) {
-      setErrorMessage(
+      setLocalError(
         <>
           {results.message}.
           {results.errors &&
@@ -118,7 +126,7 @@ export default function UserPopup() {
                 {error.message}
               </>
             ))}
-        </>,
+        </>
       );
     }
 
@@ -130,7 +138,7 @@ export default function UserPopup() {
 
     // update UI
     togglePopup();
-    setLoadMessage(null);
+    setLocalLoaderMessage(null);
   }
 
   return (
@@ -148,15 +156,15 @@ export default function UserPopup() {
               <input type="text" name="username" />
             </label>
             <input className="my-2" type="submit" value="Submit" />
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            {localError && <ErrorMessage>{localError}</ErrorMessage>}
             {username && (
               <UserPopupClose
                 onPopupClose={() => {
-                  setErrorMessage(null);
+                  setLocalError(null);
                 }}
               />
             )}
-            {loadMessage && <Loader local>{loadMessage}</Loader>}
+            {localLoaderMessage && <Loader local>{localLoaderMessage}</Loader>}
           </form>
         </div>
       )}{" "}

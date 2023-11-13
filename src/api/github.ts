@@ -1,4 +1,4 @@
-import { Language, SearchData } from "@/lib/types";
+import { SearchData } from "@/lib/types";
 
 export function searchRepositories({
   username,
@@ -32,7 +32,7 @@ export function searchRepositories({
     encodeURIComponent(
       `${keywords} ${languages} user:${username} sort:updated ${
         hideForkedRepos ? "" : "fork:true"
-      }`,
+      }`
     ) +
     "&per_page=100";
 

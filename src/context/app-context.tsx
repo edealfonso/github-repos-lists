@@ -9,14 +9,16 @@ type appContextType = {
   setKeywords: (username: string) => void;
   hideForkedRepos: boolean;
   setHideForkedRepos: (hideForkedRepos: boolean) => void;
-  showPopup: boolean;
-  togglePopup: () => void;
-  isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
   list: RepositoryData[] | any;
   setList: RepositoryData[] | any;
   languageList: Language[];
   setLanguageList: (languages: Language[]) => void;
+  page: number | null;
+  setPage: (page: number | null) => void;
+  showPopup: boolean;
+  togglePopup: () => void;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
 };
 
 const appContextIni: appContextType = {
@@ -26,14 +28,16 @@ const appContextIni: appContextType = {
   setKeywords: () => {},
   hideForkedRepos: false,
   setHideForkedRepos: () => {},
-  showPopup: true,
-  togglePopup: () => {},
-  isLoading: false,
-  setIsLoading: () => {},
   list: [],
   setList: ([]) => {},
   languageList: [],
   setLanguageList: ([]) => {},
+  page: null,
+  setPage: () => {},
+  showPopup: true,
+  togglePopup: () => {},
+  isLoading: false,
+  setIsLoading: () => {},
 };
 
 export const AppContext = createContext<appContextType>(appContextIni);
@@ -45,15 +49,16 @@ type Props = {
 export function AppProvider({ children }: Props) {
   const [username, setUsername] = useState<string>(appContextIni.username);
   const [keywords, setKeywords] = useState<string>(appContextIni.keywords);
-  const [hideForkedRepos, setHideForkedRepos] = useState<boolean | null>(
-    appContextIni.hideForkedRepos,
+  const [hideForkedRepos, setHideForkedRepos] = useState<boolean>(
+    appContextIni.hideForkedRepos
   );
-  const [showPopup, setShowPopup] = useState<boolean>(appContextIni.showPopup);
-  const [isLoading, setIsLoading] = useState<boolean>(appContextIni.isLoading);
   const [list, setList] = useState<RepositoryData[]>(appContextIni.list);
   const [languageList, setLanguageList] = useState<Language[]>(
-    appContextIni.languageList,
+    appContextIni.languageList
   );
+  const [page, setPage] = useState<number | null>(appContextIni.page);
+  const [showPopup, setShowPopup] = useState<boolean>(appContextIni.showPopup);
+  const [isLoading, setIsLoading] = useState<boolean>(appContextIni.isLoading);
 
   function togglePopup() {
     setShowPopup(!showPopup);
@@ -66,14 +71,16 @@ export function AppProvider({ children }: Props) {
     setKeywords,
     hideForkedRepos,
     setHideForkedRepos,
-    showPopup,
-    togglePopup,
-    isLoading,
-    setIsLoading,
     list,
     setList,
     languageList,
     setLanguageList,
+    page,
+    setPage,
+    showPopup,
+    togglePopup,
+    isLoading,
+    setIsLoading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
