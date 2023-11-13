@@ -7,6 +7,8 @@ type appContextType = {
   setUsername: (username: string) => void;
   keywords: string;
   setKeywords: (username: string) => void;
+  hideForkedRepos: boolean;
+  setHideForkedRepos: (hideForkedRepos: boolean) => void;
   showPopup: boolean;
   togglePopup: () => void;
   isLoading: boolean;
@@ -17,11 +19,13 @@ type appContextType = {
   setLanguageList: (languages: Language[]) => void;
 };
 
-const appContextDefaultValues: appContextType = {
+const appContextIni: appContextType = {
   username: "",
   setUsername: () => {},
   keywords: "",
   setKeywords: () => {},
+  hideForkedRepos: false,
+  setHideForkedRepos: () => {},
   showPopup: true,
   togglePopup: () => {},
   isLoading: false,
@@ -32,32 +36,23 @@ const appContextDefaultValues: appContextType = {
   setLanguageList: ([]) => {},
 };
 
-export const AppContext = createContext<appContextType>(
-  appContextDefaultValues
-);
+export const AppContext = createContext<appContextType>(appContextIni);
 
 type Props = {
   children: ReactNode;
 };
 
 export function AppProvider({ children }: Props) {
-  const [username, setUsername] = useState<string>(
-    appContextDefaultValues.username
+  const [username, setUsername] = useState<string>(appContextIni.username);
+  const [keywords, setKeywords] = useState<string>(appContextIni.keywords);
+  const [hideForkedRepos, setHideForkedRepos] = useState<boolean | null>(
+    appContextIni.hideForkedRepos,
   );
-  const [keywords, setKeywords] = useState<string>(
-    appContextDefaultValues.keywords
-  );
-  const [showPopup, setShowPopup] = useState<boolean>(
-    appContextDefaultValues.showPopup
-  );
-  const [isLoading, setIsLoading] = useState<boolean>(
-    appContextDefaultValues.isLoading
-  );
-  const [list, setList] = useState<RepositoryData[]>(
-    appContextDefaultValues.list
-  );
+  const [showPopup, setShowPopup] = useState<boolean>(appContextIni.showPopup);
+  const [isLoading, setIsLoading] = useState<boolean>(appContextIni.isLoading);
+  const [list, setList] = useState<RepositoryData[]>(appContextIni.list);
   const [languageList, setLanguageList] = useState<Language[]>(
-    appContextDefaultValues.languageList
+    appContextIni.languageList,
   );
 
   function togglePopup() {
@@ -69,6 +64,8 @@ export function AppProvider({ children }: Props) {
     setUsername,
     keywords,
     setKeywords,
+    hideForkedRepos,
+    setHideForkedRepos,
     showPopup,
     togglePopup,
     isLoading,

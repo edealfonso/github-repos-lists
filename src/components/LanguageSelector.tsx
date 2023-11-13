@@ -1,7 +1,7 @@
 "use client";
 import { AppContext } from "@/context/app-context";
 import { useContext } from "react";
-import LanguageTag from "./common/LanguageTag";
+import Tag from "./common/Tag";
 import { Language } from "@/lib/types";
 import { searchRepositories } from "@/api/github";
 
@@ -13,6 +13,7 @@ export default function LanguageSelector() {
     username,
     setList,
     keywords,
+    hideForkedRepos,
   } = useContext(AppContext);
 
   async function handleLanguageClick(index: number) {
@@ -29,11 +30,12 @@ export default function LanguageSelector() {
     setLanguageList(newSelection);
 
     // update results
-    const results: any = await searchRepositories(
+    const results: any = await searchRepositories({
       username,
       keywords,
-      newSelection
-    );
+      languageList: newSelection,
+      hideForkedRepos,
+    });
 
     // update language list
     // we assume the is no possible error in this step
@@ -49,14 +51,14 @@ export default function LanguageSelector() {
         languageList.map((language: Language, i: number) => {
           return (
             <li className="flex items-center gap-3" key={i}>
-              <LanguageTag
+              <Tag
                 index={i}
-                onButtonClick={() => {
+                onTagClick={() => {
                   handleLanguageClick(i);
                 }}
               >
                 {language.name}
-              </LanguageTag>
+              </Tag>
             </li>
           );
         })}

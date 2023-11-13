@@ -3,11 +3,12 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 
 interface Props {
   children?: ReactNode;
-  onButtonClick?: () => void;
+  onTagClick?: () => void;
   index?: number;
+  highlight?: boolean;
 }
 
-export default function LanguageTag({ children, onButtonClick, index }: Props) {
+export default function Tag({ children, onTagClick, index, highlight }: Props) {
   const [active, setActive] = useState(false);
   const { languageList } = useContext(AppContext);
 
@@ -24,19 +25,19 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
   }, [languageList, index]);
 
   function handleClick() {
-    if (onButtonClick) {
+    if (onTagClick) {
       // first of all, we change the loop of the button
       // to engage the user
       setActive((current) => !current);
 
       // then we process everything else
-      onButtonClick();
+      onTagClick();
     }
   }
 
   return (
     <>
-      {onButtonClick && (
+      {onTagClick && (
         <a
           onClick={handleClick}
           className="py-0.5 px-1 no-underline text-inherit outline outline-1 rounded-sm text-sm opacity-50 dark:opacity-100 hover:opacity-100"
@@ -54,8 +55,20 @@ export default function LanguageTag({ children, onButtonClick, index }: Props) {
           {children}
         </a>
       )}
-      {!onButtonClick && (
-        <small className="inline-block opacity-40 dark:opacity-60 block outline outline-1	py-0.5 px-1 rounded-sm outline align-[2px]">
+      {!onTagClick && (
+        <small
+          className="inline-block opacity-40 dark:opacity-60 block outline outline-1	py-0.5 px-1 mr-2 rounded-sm outline align-[2px]"
+          style={
+            highlight
+              ? {
+                  backgroundColor: "var(--button-color)",
+                  color: "var(--background-alt-color)",
+                  outlineColor: "var(--button-color)",
+                  opacity: 1,
+                }
+              : {}
+          }
+        >
           {children}
         </small>
       )}

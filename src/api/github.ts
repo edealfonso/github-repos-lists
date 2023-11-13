@@ -1,12 +1,13 @@
-import { Language } from "@/lib/types";
+import { Language, SearchData } from "@/lib/types";
 
-export function searchRepositories(
-  username: string,
-  keywords: string = "",
-  languageArray: Language[] = []
-): Promise<any> {
+export function searchRepositories({
+  username,
+  keywords = "",
+  languageList = [],
+  hideForkedRepos = false,
+}: SearchData): Promise<any> {
   // generate query string for language filtering
-  const languages = languageArray.reduce((acc, current) => {
+  const languages = languageList.reduce((acc, current) => {
     // only add active languages
     if (current.active) {
       // get language name
@@ -29,7 +30,9 @@ export function searchRepositories(
   const queryString =
     "q=" +
     encodeURIComponent(
-      `${keywords} ${languages} user:${username} sort:updated`
+      `${keywords} ${languages} user:${username} sort:updated ${
+        hideForkedRepos ? "" : "fork:true"
+      }`,
     ) +
     "&per_page=100";
 

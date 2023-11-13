@@ -1,10 +1,20 @@
 "use client";
 import { searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import LanguageSelector from "./LanguageSelector";
 import ErrorMessage from "./common/ErrorMessage";
 import RepositoryCount from "./RepositoryCount";
+
+import style from "./SearchBox.module.css";
+import { SearchData } from "@/lib/types";
 
 export default function SearchBox() {
   const {
@@ -13,7 +23,10 @@ export default function SearchBox() {
     list,
     languageList,
     setLanguageList,
+    keywords,
     setKeywords,
+    hideForkedRepos,
+    setHideForkedRepos,
     setIsLoading,
   } = useContext(AppContext);
 
@@ -21,23 +34,70 @@ export default function SearchBox() {
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const inputKeywords = useRef<HTMLInputElement>(null);
+  const checkboxFork = useRef<HTMLInputElement>(null);
 
   // reset filters when username is changed
   useEffect(resetFilters, [username]);
 
-  async function handleClear(event: FormEvent<HTMLInputElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // show loader
-    setIsLoading(true);
+    // get form data (keywords input)
+    const formData = new FormData(event.currentTarget);
+    const input: string | any = formData.get("keywords");
+
+    // save in context state
+    setKeywords(input);
+
+    // search + display results/error
+    search({
+      username,
+      keywords: input,
+      languageList,
+      hideForkedRepos,
+    });
+  }
+
+  async function handleCheckboxChange(event: ChangeEvent<HTMLInputElement>) {
+    // get new value of input
+    const forked = event.target.checked;
+
+    // save in context
+    setHideForkedRepos(forked);
+
+    // search + display results/error
+    search({
+      username,
+      keywords,
+      languageList,
+      hideForkedRepos: forked,
+    });
+  }
+
+  async function handleClear(event: FormEvent<HTMLInputElement>) {
+    event.preventDefault();
 
     // reset filters
     resetFilters();
 
-    // perform another search without filters
-    // and save results in context state
-    const results: any = await searchRepositories(username);
-    setList(results.items);
+    // search + display
+    search({ username });
+  }
+
+  // search and update context state with results or show error
+  async function search(data: SearchData) {
+    // show loader
+    setIsLoading(true);
+
+    // API request
+    const results: any = await searchRepositories(data);
+
+    // show results or error
+    if (results.items) {
+      setList(results.items);
+    } else {
+      setError(results);
+    }
 
     // remove loader
     setIsLoading(false);
@@ -50,6 +110,12 @@ export default function SearchBox() {
     }
     setKeywords("");
 
+    // reset fork checkbox
+    if (checkboxFork.current) {
+      checkboxFork.current.checked = false;
+    }
+    setHideForkedRepos(false);
+
     // reset languages selectors
     // we must do this in a quite complicated way for it to work and not give linting problems **(*NOTE4*)**
     let newLanguageList = languageList.map((language) => {
@@ -59,33 +125,6 @@ export default function SearchBox() {
       };
     });
     setLanguageList(newLanguageList);
-  }
-
-  async function handleSearch(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    // show loader
-    setIsLoading(true);
-
-    // get form data (keywords input) and save in context state
-    const formData = new FormData(event.currentTarget);
-    const keywords: string | any = formData.get("keywords");
-    setKeywords(keywords);
-
-    // fetch results and update context state or show error
-    const results: any = await searchRepositories(
-      username,
-      keywords,
-      languageList
-    );
-    if (results.items) {
-      setList(results.items);
-    } else {
-      setError(results);
-    }
-
-    // remove loader
-    setIsLoading(false);
   }
 
   return (
@@ -102,7 +141,7 @@ export default function SearchBox() {
 
             <form
               style={{ display: showFilters ? "block" : "none" }}
-              onSubmit={handleSearch}
+              onSubmit={handleSubmit}
             >
               <label className="flex flex-col gap-1">
                 Keywords
@@ -112,7 +151,19 @@ export default function SearchBox() {
                 <p>Languages</p>
                 <LanguageSelector />
               </div>
-              <div className="flex gap-2 justify-end mt-9 sm:mt-6">
+              <label className="flex flex-col gap-1 mt-6 sm:mt-4">
+                <p>Hide forked?</p>
+                <div className={style.switch}>
+                  <input
+                    type="checkbox"
+                    onChange={handleCheckboxChange}
+                    ref={checkboxFork}
+                    checked={hideForkedRepos == true ? true : false}
+                  />
+                  <span className={style.slider}></span>
+                </div>
+              </label>
+              <div className="flex gap-2 justify-end mt-6 sm:mt-4">
                 <input type="submit" value="Search" />
                 <input type="reset" onClick={handleClear} value="Clear" />
               </div>

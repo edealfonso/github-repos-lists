@@ -8,7 +8,6 @@ import {
 } from "react";
 import { getUser, searchRepositories } from "@/api/github";
 import { AppContext } from "@/context/app-context";
-import Image from "next/image";
 import { collectLanguages } from "@/lib/utils";
 import UserPopupClose from "./UserPopupClose";
 import Loader from "./common/Loader";
@@ -75,7 +74,7 @@ export default function UserPopup() {
             User not found.
             <br />
             Try another username.
-          </>
+          </>,
         );
       } else {
         setErrorMessage(<>{userData.message}</>);
@@ -90,7 +89,7 @@ export default function UserPopup() {
           No public repositories found for this user.
           <br />
           Please try another username.
-        </>
+        </>,
       );
       return false;
     }
@@ -105,7 +104,7 @@ export default function UserPopup() {
     setLoadMessage(<>Fetching repositories ...</>);
 
     // API REQUEST (fetch repos)
-    const results: any = await searchRepositories(username);
+    const results: any = await searchRepositories({ username });
 
     // display error (no items populated, reads API error message)
     if (!results.items) {
@@ -119,7 +118,7 @@ export default function UserPopup() {
                 {error.message}
               </>
             ))}
-        </>
+        </>,
       );
     }
 

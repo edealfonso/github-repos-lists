@@ -70,7 +70,7 @@ Search for `**(*NOTEX*)**` in comments.
 - Languages names with spaces must be wrapped in `"  "` so that the API search query works. **(*NOTE2*)**
 - The `key` of listed components propreties becomes `undefined` at some point of the rendering and it's not something you can rely on. **(*NOTE3*)**
 - State variables of arrays are tricky to update. **(*NOTE4*)**
-- Only non-forked repositories are shown, as it is the default for search results. Could be changed adding `fork:true` to query string.
+- The search is configured so that forked repositories are also shown, as it is the default for search results. Could be changed adding `fork:true` to query string.
 
 ## Future improvements
 - Add pagination (now the maximum is set to 100 results)
