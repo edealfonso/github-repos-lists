@@ -40,7 +40,7 @@ export function searchRepositories({
 
   // final url
   const url = `https://api.github.com/search/repositories?${queryString}${parameters}`;
-  console.log("Fetched REST API:", url);
+  // console.log("Fetched REST API:", url);
 
   // return fetch promise
   return fetch(url, {
@@ -56,7 +56,7 @@ export function searchRepositories({
 export function getUser(username: string): Promise<any> {
   // final url
   const url = `https://api.github.com/users/${username}`;
-  console.log("Fetched REST API:", url);
+  // console.log("Fetched REST API:", url);
 
   // return fetch promise
   return fetch(url, {

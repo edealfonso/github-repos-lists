@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { AppContext } from "@/context/app-context";
 import Image from "next/image";
 
-export default function UserPopupClose({
-  onPopupClose,
-}: {
+interface Props {
   onPopupClose: () => void;
-}) {
+}
+
+export default function UserPopupClose({ onPopupClose }: Props) {
   const { togglePopup } = useContext(AppContext);
 
   function handleClick() {

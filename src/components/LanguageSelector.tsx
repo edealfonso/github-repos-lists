@@ -3,11 +3,11 @@ import { useContext } from "react";
 import Tag from "./common/Tag";
 import { Language } from "@/lib/types";
 
-export default function LanguageSelector({
-  onLanguageClick,
-}: {
+interface Props {
   onLanguageClick: (newLanguageList: Language[]) => void;
-}) {
+}
+
+export default function LanguageSelector({ onLanguageClick }: Props) {
   const { languageList } = useContext(AppContext);
 
   async function handleTagClick(index: number) {

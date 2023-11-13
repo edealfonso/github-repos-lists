@@ -17,7 +17,6 @@ export default function UserPopup() {
   const [localError, setLocalError] = useState<ReactElement | null>(null);
   const [localLoaderMessage, setLocalLoaderMessage] =
     useState<ReactElement | null>(null);
-
   const {
     showPopup,
     togglePopup,

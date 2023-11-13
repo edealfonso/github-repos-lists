@@ -36,8 +36,12 @@ export default function SearchBox() {
   const inputKeywords = useRef<HTMLInputElement>(null);
   const checkboxFork = useRef<HTMLInputElement>(null);
 
-  // reset filters when username is changed
-  useEffect(resetFilters, [username]);
+  // reset filters on username change
+  useEffect(() => {
+    resetKeywords();
+    resetForkedOption();
+    resetLanguageSelection();
+  }, [username]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,7 +54,7 @@ export default function SearchBox() {
     setKeywords(input);
 
     // search + display results/error
-    await search({
+    await searchAndUpdate({
       username,
       keywords: input,
       languageList,
@@ -66,7 +70,7 @@ export default function SearchBox() {
     setHideForkedRepos(forked);
 
     // search + display results/error
-    await search({
+    await searchAndUpdate({
       username,
       keywords,
       languageList,
@@ -79,7 +83,7 @@ export default function SearchBox() {
     setLanguageList(newLanguageList);
 
     // search + display results/error
-    await search({
+    await searchAndUpdate({
       username,
       keywords,
       languageList: newLanguageList,
@@ -91,21 +95,22 @@ export default function SearchBox() {
     event.preventDefault();
 
     // reset filters
-    resetFilters();
+    resetKeywords();
+    resetForkedOption();
+    resetLanguageSelection();
 
-    // search + display
-    search({ username });
+    // search + display results / error
+    searchAndUpdate({ username });
   }
 
-  // search and update context state with results or show error
-  async function search(data: SearchData) {
+  async function searchAndUpdate(data: SearchData) {
     // show loader
     setIsLoading(true);
 
     // API request
     const results: any = await searchRepositories(data);
 
-    // show results or error
+    // show results / error
     if (results.items) {
       setList(results.items);
     } else {
@@ -116,20 +121,21 @@ export default function SearchBox() {
     setIsLoading(false);
   }
 
-  function resetFilters() {
-    // reset keywords input
+  function resetKeywords() {
     if (inputKeywords.current) {
       inputKeywords.current.value = "";
     }
     setKeywords("");
+  }
 
-    // reset fork checkbox
+  function resetForkedOption() {
     if (checkboxFork.current) {
       checkboxFork.current.checked = false;
     }
     setHideForkedRepos(false);
+  }
 
-    // reset languages selectors
+  function resetLanguageSelection() {
     // we must do this in a quite complicated way for it to work and not give linting problems **(*NOTE4*)**
     let newLanguageList = languageList.map((language) => {
       return {

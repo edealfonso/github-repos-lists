@@ -1,15 +1,15 @@
 "use client";
 
 import { AppContext } from "@/context/app-context";
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import style from "./Loader.module.css";
-export default function Loader({
-  children,
-  local,
-}: {
-  children?: React.ReactNode;
+
+interface Props {
+  children?: ReactNode;
   local?: boolean;
-}) {
+}
+
+export default function Loader({ children, local }: Props) {
   const { isLoading } = useContext(AppContext);
 
   return (
