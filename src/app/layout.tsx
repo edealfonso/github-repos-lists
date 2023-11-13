@@ -7,7 +7,7 @@ import Footer from "@/components/common/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GitHub repo spy",
+  title: "GitHub Repo Spy",
   description: "GitHub Repositories With Search Functionality",
 };
 

@@ -142,7 +142,7 @@ export default function UserPopup() {
             onSubmit={handleSubmit}
             style={{ backgroundColor: "var(--background-alt-color)" }}
           >
-            <h5 className="pb-2">GitHub repo spy</h5>
+            <h5 className="pb-2">GitHub Repo Spy</h5>
             <label className="flex flex-col gap-3">
               Please, write a GitHub username...
               <input type="text" name="username" />

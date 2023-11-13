@@ -1,25 +1,16 @@
-"use client";
 import { AppContext } from "@/context/app-context";
 import { useContext } from "react";
 import Tag from "./common/Tag";
 import { Language } from "@/lib/types";
-import { searchRepositories } from "@/api/github";
 
-export default function LanguageSelector() {
-  const {
-    setIsLoading,
-    languageList,
-    setLanguageList,
-    username,
-    setList,
-    keywords,
-    hideForkedRepos,
-  } = useContext(AppContext);
+export default function LanguageSelector({
+  onLanguageClick,
+}: {
+  onLanguageClick: (newLanguageList: Language[]) => void;
+}) {
+  const { languageList } = useContext(AppContext);
 
-  async function handleLanguageClick(index: number) {
-    // show loader
-    setIsLoading(true);
-
+  async function handleTagClick(index: number) {
     // update language list in context state
     // we must do this in a quite complicated way for it to work and not give linting problems **(*NOTE4*)**
     let newSelection: Language[] = languageList;
@@ -27,22 +18,9 @@ export default function LanguageSelector() {
       name: newSelection[index].name,
       active: !newSelection[index].active,
     };
-    setLanguageList(newSelection);
 
-    // update results
-    const results: any = await searchRepositories({
-      username,
-      keywords,
-      languageList: newSelection,
-      hideForkedRepos,
-    });
-
-    // update language list
-    // we assume the is no possible error in this step
-    setList(results.items);
-
-    // remove loader
-    setIsLoading(false);
+    // emit event to SearchBox component
+    onLanguageClick(newSelection);
   }
 
   return (
@@ -54,7 +32,7 @@ export default function LanguageSelector() {
               <Tag
                 index={i}
                 onTagClick={() => {
-                  handleLanguageClick(i);
+                  handleTagClick(i);
                 }}
               >
                 {language.name}

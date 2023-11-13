@@ -1,14 +1,9 @@
 # **GitHub Repo Spy**
 
-## TO-DO
-- no repetir codigo hacer utils o algo (handleClickLanguage llevarlo a Searchbox? o incluso meter todas las searches en el context)
-- Animation / SOUND
-- Document with [ref](https://google.github.io/styleguide/jsguide.html#jsdoc)
-  
 ## Description
 This application provides a simple search functionality for GitHub Repositories.
 
-Given a user, the program attempts populates a simple list of linked repositories. The results can be filtered by searching the repositories names or selecting programming languages of interest.
+Given a user, the program attempts populates a simple list of linked repositories. The results can be filtered by searching the repositories names or selecting programming languages of interest. Forked repositories can also become hidden.
 
 ## Specs
 - React + Typescript
@@ -41,7 +36,7 @@ Given a user, the program attempts populates a simple list of linked repositorie
 
 2. Population of user results and filters
    - If a correct response is obtained, a simple list of repositories is populated.
-   - Each item is linked to repository page, and has an indication of its main programming language.
+   - Each item is linked to repository page, and has an indication of its main programming language and wether it has been forked or not.
    - In parallel, a list of all the programming languages of this list of repositories **of that particular user** is populated, in order to create filters.
    - Data is saved and later updated in `AppContext`: 
       - GitHub user (`username`)
@@ -52,8 +47,10 @@ Given a user, the program attempts populates a simple list of linked repositorie
    - User can now interact with the filtering system.
    - In the "Keywords" input, the user can search repositories names. A new request to the API will take place when user presses "Search" submit, updating the results.
    - The "Languages" selectors can be toggled to filter by programming language. Each click on a selector will send a new request to the API, updating the results.
+   - There is also a switch to allow user to hide the forked repositories. Each click on the switch will send a new request to the API, updating the results.
    - Data is saved and updated in `AppContext`: 
      - Search keywords (`keywords`)
+     - Hide forked repos (`hideForkedRepos``)
   
 4. Changing the username
     - User can also put back the popup and change the username.
@@ -70,7 +67,6 @@ Search for `**(*NOTEX*)**` in comments.
 - Languages names with spaces must be wrapped in `"  "` so that the API search query works. **(*NOTE2*)**
 - The `key` of listed components propreties becomes `undefined` at some point of the rendering and it's not something you can rely on. **(*NOTE3*)**
 - State variables of arrays are tricky to update. **(*NOTE4*)**
-- The search is configured so that forked repositories are also shown, as it is the default for search results. Could be changed adding `fork:true` to query string.
 
 ## Future improvements
 - Add pagination (now the maximum is set to 100 results)
@@ -79,7 +75,5 @@ Search for `**(*NOTEX*)**` in comments.
 - Write tests
 - Use the GraphQL [v4 API](https://docs.github.com/en/graphql)
 
-
 ## Credits
-
 @2023 [Elsa de Alfonso](mailto:elsa.de.alfonso@gmail.com)

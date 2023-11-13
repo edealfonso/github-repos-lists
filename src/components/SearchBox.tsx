@@ -14,7 +14,7 @@ import ErrorMessage from "./common/ErrorMessage";
 import RepositoryCount from "./RepositoryCount";
 
 import style from "./SearchBox.module.css";
-import { SearchData } from "@/lib/types";
+import { Language, SearchData } from "@/lib/types";
 
 export default function SearchBox() {
   const {
@@ -50,7 +50,7 @@ export default function SearchBox() {
     setKeywords(input);
 
     // search + display results/error
-    search({
+    await search({
       username,
       keywords: input,
       languageList,
@@ -66,11 +66,24 @@ export default function SearchBox() {
     setHideForkedRepos(forked);
 
     // search + display results/error
-    search({
+    await search({
       username,
       keywords,
       languageList,
       hideForkedRepos: forked,
+    });
+  }
+
+  async function handleLanguageClick(newLanguageList: Language[]) {
+    // save in context
+    setLanguageList(newLanguageList);
+
+    // search + display results/error
+    await search({
+      username,
+      keywords,
+      languageList: newLanguageList,
+      hideForkedRepos,
     });
   }
 
@@ -149,7 +162,7 @@ export default function SearchBox() {
               </label>
               <div className="flex flex-col gap-1 mt-6 sm:mt-4">
                 <p>Languages</p>
-                <LanguageSelector />
+                <LanguageSelector onLanguageClick={handleLanguageClick} />
               </div>
               <label className="flex flex-col gap-1 mt-6 sm:mt-4">
                 <p>Hide forked?</p>
