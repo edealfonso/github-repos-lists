@@ -13,8 +13,6 @@ type appContextType = {
   setList: RepositoryData[] | any;
   languageList: Language[];
   setLanguageList: (languages: Language[]) => void;
-  page: number | null;
-  setPage: (page: number | null) => void;
   showPopup: boolean;
   togglePopup: () => void;
   isLoading: boolean;
@@ -32,8 +30,6 @@ const appContextIni: appContextType = {
   setList: ([]) => {},
   languageList: [],
   setLanguageList: ([]) => {},
-  page: null,
-  setPage: () => {},
   showPopup: true,
   togglePopup: () => {},
   isLoading: false,
@@ -56,7 +52,6 @@ export function AppProvider({ children }: Props) {
   const [languageList, setLanguageList] = useState<Language[]>(
     appContextIni.languageList
   );
-  const [page, setPage] = useState<number | null>(appContextIni.page);
   const [showPopup, setShowPopup] = useState<boolean>(appContextIni.showPopup);
   const [isLoading, setIsLoading] = useState<boolean>(appContextIni.isLoading);
 
@@ -75,8 +70,6 @@ export function AppProvider({ children }: Props) {
     setList,
     languageList,
     setLanguageList,
-    page,
-    setPage,
     showPopup,
     togglePopup,
     isLoading,

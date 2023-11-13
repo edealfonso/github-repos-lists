@@ -26,18 +26,20 @@ export function searchRepositories({
     }
   }, "");
 
-  // building final query **(*NOTE1*)**
+  // building search query **(*NOTE1*)**
   const queryString =
     "q=" +
     encodeURIComponent(
       `${keywords} ${languages} user:${username} sort:updated ${
         hideForkedRepos ? "" : "fork:true"
       }`
-    ) +
-    "&per_page=100";
+    );
+
+  // set parameters
+  let parameters = "&per_page=100";
 
   // final url
-  const url = `https://api.github.com/search/repositories?${queryString}`;
+  const url = `https://api.github.com/search/repositories?${queryString}${parameters}`;
   console.log("Fetched REST API:", url);
 
   // return fetch promise

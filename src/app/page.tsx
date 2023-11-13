@@ -1,5 +1,4 @@
 import Loader from "@/components/common/Loader";
-import RepositoryCount from "@/components/RepositoryCount";
 import RepositoryList from "@/components/RepositoryList";
 import SearchBox from "@/components/SearchBox";
 import UserPopup from "@/components/UserPopup";
